@@ -5,7 +5,9 @@ var Consumer = kafka.Consumer;
 var Offset = kafka.Offset;
 var Client = kafka.KafkaClient;
 var argv = require('optimist').argv;
-var topic = argv.topic || 'scicat';
+var v20topic = 'the_status_topic';
+var dmsctopic = 'scicat';
+var topic = argv.topic || v20topic;
 
 var v20ip = '172.24.0.207'; 
 var dmscip = '172.17.5.38'; 

@@ -1,47 +1,57 @@
-'use strict';
+"use strict";
 
-var kafka = require('kafka-node');
-var rp = require('request-promise');
+var kafka = require("kafka-node");
+var fs = require("fs");
+var rp = require("request-promise");
 var Consumer = kafka.Consumer;
 var Offset = kafka.Offset;
 var Client = kafka.KafkaClient;
-var argv = require('optimist').argv;
-var v20topic = 'the_status_topic';
-var dmsctopic = 'scicat';
-var topic = argv.topic || v20topic;
+var argv = require("optimist").argv;
+var v20topic = "the_status_topic";
+var dmsctopic = "scicat";
+var topic = argv.topic || dmsctopic;
 
-var v20ip = '172.24.0.207'; 
-var dmscip = '172.17.5.38'; 
-var client = new Client({ kafkaHost: v20ip+':9092' });
+var v20ip = "172.24.0.207";
+var dmscip = "172.17.5.38";
+var client = new Client({ kafkaHost: dmscip + ":9092" });
 var topics = [{ topic: topic, partition: 0 }];
-var options = { autoCommit: false, fetchMaxWaitMs: 1000, fetchMaxBytes: 1024 * 1024 };
+var options = {
+  autoCommit: false,
+  fetchMaxWaitMs: 1000,
+  fetchMaxBytes: 1024 * 1024
+};
 
 var consumer = new Consumer(client, topics, options);
 var offset = new Offset(client);
 
-    // Refresh metadata required for the first message to go through
-    // https://github.com/SOHU-Co/kafka-node/pull/378
-    client.refreshMetadata([topic], (err) => {
-        if (err) {
-            console.warn('Error refreshing kafka metadata', err);
-        }
-    });
-
-consumer.on('message', function (message) {
-  postToSciCat(message);
-  console.log(message);
+// Refresh metadata required for the first message to go through
+// https://github.com/SOHU-Co/kafka-node/pull/378
+client.refreshMetadata([topic], err => {
+  if (err) {
+    console.warn("Error refreshing kafka metadata", err);
+  }
 });
 
-consumer.on('error', function (err) {
-  console.log('error', err);
+  async function sendtoscicat(message) {
+    var x = await loginToScicat();
+    var y = await postToSciCat(x, message);
+  }
+
+consumer.on("message", function(message) {
+  sendtoscicat(message);
+  //console.log(message);
+});
+
+consumer.on("error", function(err) {
+  console.log("error", err);
 });
 
 /*
-* If consumer get `offsetOutOfRange` event, fetch data from the smallest(oldest) offset
-*/
-consumer.on('offsetOutOfRange', function (topic) {
+ * If consumer get `offsetOutOfRange` event, fetch data from the smallest(oldest) offset
+ */
+consumer.on("offsetOutOfRange", function(topic) {
   topic.maxNum = 2;
-  offset.fetch([topic], function (err, offsets) {
+  offset.fetch([topic], function(err, offsets) {
     if (err) {
       return console.error(err);
     }
@@ -50,8 +60,109 @@ consumer.on('offsetOutOfRange', function (topic) {
   });
 });
 
-
-function postToSciCat(data) {
-  console.log("posting to scicat");
+function readjson(filename) {
+  return JSON.parse(fs.readFileSync(filename, "utf-8"));
 }
 
+async function loginToScicat(data) {
+  console.log("login to scicat");
+  let url = "http://localhost:3000/api/v3/Users/login";
+  let rawdata = readjson("user.json");
+  console.log(rawdata);
+  let options1 = {
+    url: url,
+    method: "POST",
+    body: rawdata,
+    json: true,
+    rejectUnauthorized: false
+  };
+  try {
+    console.log(options1);
+    const response = await rp(options1);
+    console.log(response);
+    return Promise.resolve(response);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+
+async function postToSciCat(token, message) {
+  console.log("posting to scicat");
+  let url = "http://localhost:3000/api/v3/RawDatasets/"+"?access_token="+token.id;
+  console.log(url);
+  let dataset = {
+    "principalInvestigator": "string",
+    "endTime": "2019-03-20T12:39:37.646Z",
+    "creationLocation": "string",
+    "dataFormat": "string",
+    "scientificMetadata": message,
+    "owner": "string",
+    "ownerEmail": "string",
+    "orcidOfOwner": "string",
+    "contactEmail": "string",
+    "sourceFolder": "string",
+    "size": 0,
+    "packedSize": 0,
+    "creationTime": "2019-03-20T12:39:37.646Z",
+    "type": "string",
+    "validationStatus": "string",
+    "keywords": [
+      "string"
+    ],
+    "description": "string",
+    "datasetName": "string",
+    "classification": "string",
+    "license": "string",
+    "version": "string",
+    "isPublished": true,
+    "ownerGroup": "string",
+    "accessGroups": [
+      "string"
+    ],
+    "createdBy": "string",
+    "updatedBy": "string",
+    "createdAt": "2019-03-20T12:39:37.646Z",
+    "updatedAt": "2019-03-20T12:39:37.646Z",
+    "sampleId": "string",
+    "proposalId": "string",
+    "datasetlifecycle": {
+      "archivable": true,
+      "retrievable": true,
+      "publishable": true,
+      "dateOfDiskPurging": "2019-03-20T12:39:37.646Z",
+      "archiveRetentionTime": "2019-03-20T12:39:37.646Z",
+      "dateOfPublishing": "2019-03-20T12:39:37.646Z",
+      "isOnCentralDisk": true,
+      "archiveStatusMessage": "string",
+      "retrieveStatusMessage": "string",
+      "archiveReturnMessage": {},
+      "retrieveReturnMessage": {},
+      "exportedTo": "string",
+      "retrieveIntegrityCheck": true
+    },
+    "history": [
+      {
+        "id": "string"
+      }
+    ]
+  }
+
+  
+  console.log(dataset);
+  let options1 = {
+    url: url,
+    method: "POST",
+    body: dataset,
+    json: true,
+    rejectUnauthorized: false
+  };
+  try {
+    console.log(options1);
+    const response = await rp(options1);
+    console.log(response);
+    return Promise.resolve(response);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}

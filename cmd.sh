@@ -1,2 +1,2 @@
-docker build . -t kaf
-docker run -it kaf  bash
+docker-compose build
+docker-compose run kaf bash

@@ -11,6 +11,7 @@
   "license": "GPL-v3.0",
   "dependencies": {
     "kafka-node": "^4.0.2",
-    "optimist": "^0.6.1"
+    "optimist": "^0.6.1",
+    "request": "^2.88.0"
   }
 }

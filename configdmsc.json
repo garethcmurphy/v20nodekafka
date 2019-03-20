@@ -1,0 +1,5 @@
+{
+  "kafkaIP": "172.17.5.38",
+  "topic": "scicat",
+  "scicatIP": "localhost:3000"
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 var kafka = require('kafka-node');
-var require = require('request');
+var rp = require('request-promise');
 var Consumer = kafka.Consumer;
 var Offset = kafka.Offset;
 var Client = kafka.KafkaClient;
@@ -28,6 +28,7 @@ var offset = new Offset(client);
     });
 
 consumer.on('message', function (message) {
+  postToSciCat(message);
   console.log(message);
 });
 
@@ -48,4 +49,9 @@ consumer.on('offsetOutOfRange', function (topic) {
     consumer.setOffset(topic.topic, topic.partition, min);
   });
 });
+
+
+function postToSciCat(data) {
+  console.log("posting to scicat");
+}
 

@@ -7,7 +7,9 @@ var Client = kafka.KafkaClient;
 var argv = require('optimist').argv;
 var topic = argv.topic || 'scicat';
 
-var client = new Client({ kafkaHost: '172.17.5.38:9092' });
+var v20ip = '172.24.0.207'; 
+var dmscip = '172.17.5.38'; 
+var client = new Client({ kafkaHost: v20ip+':9092' });
 var topics = [{ topic: topic, partition: 0 }];
 var options = { autoCommit: false, fetchMaxWaitMs: 1000, fetchMaxBytes: 1024 * 1024 };
 

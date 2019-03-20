@@ -8,3 +8,4 @@ WORKDIR /usr/src/app/
 RUN npm install
 
 COPY kafka.js /usr/src/app/
+CMD ["node","kafka.js"]

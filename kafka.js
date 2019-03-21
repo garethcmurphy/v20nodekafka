@@ -100,7 +100,7 @@ async function postToSciCat(token, message, config) {
     "endTime": "2019-03-20T12:39:37.646Z",
     "creationLocation": defaultDataset.creationLocation,
     "dataFormat": defaultDataset.dataFormat,
-    "scientificMetadata": message.value,
+    "scientificMetadata": message,
     "owner":  defaultDataset.owner,
     "ownerEmail": defaultDataset.ownerEmail,
     "orcidOfOwner":  defaultDataset.orcidOfOwner,

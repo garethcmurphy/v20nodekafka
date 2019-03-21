@@ -123,9 +123,7 @@ async function postToSciCat(token, message, config, sampleId) {
     "version":  defaultDataset.version,
     "isPublished":  defaultDataset.isPublished,
     "ownerGroup":  defaultDataset.ownerGroup,
-    "accessGroups": [
-      "string"
-    ],
+    "accessGroups": defaultDataset.accessGroups,
     "createdBy": "string",
     "updatedBy": "string",
     "createdAt": "2019-03-20T12:39:37.646Z",

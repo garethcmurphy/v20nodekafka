@@ -25,7 +25,8 @@
   "isPublished": true,
   "ownerGroup": "ess",
   "accessGroups": [
-    "string"
+    "ess",
+    "brightness"
   ],
   "createdBy": "string",
   "updatedBy": "string",

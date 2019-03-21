@@ -94,10 +94,11 @@ async function postToSciCat(token, message, config) {
   console.log("posting to scicat");
   let url = "http://"+config.scicatIP+"/api/v3/RawDatasets/"+"?access_token="+token.id;
   console.log(url);
+  var defaultDataset = readjson("dataset.json");
   let dataset = {
-    "principalInvestigator": "string",
+    "principalInvestigator": defaultDataset.principalInvestigator,
     "endTime": "2019-03-20T12:39:37.646Z",
-    "creationLocation": "string",
+    "creationLocation": defaultDataset.creationLocation,
     "dataFormat": "string",
     "scientificMetadata": message,
     "owner": "string",

@@ -1,0 +1,56 @@
+{
+  "principalInvestigator": "Tobias Richter",
+  "endTime": "2019-03-20T12:39:37.646Z",
+  "creationLocation": "V20",
+  "dataFormat": "NeXus HDF5",
+  "scientificMetadata": "string",
+  "owner": "Tobias Richter",
+  "ownerEmail": "tobias.richter@esss.se",
+  "orcidOfOwner": "https://orcid.org/0000-0002-7774-8995",
+  "contactEmail": "tobias.richter@esss.se",
+  "sourceFolder": "v20",
+  "size": 0,
+  "packedSize": 0,
+  "creationTime": "2019-03-20T12:39:37.646Z",
+  "type": "string",
+  "validationStatus": "string",
+  "keywords": [
+    "string"
+  ],
+  "description": "V20 data",
+  "datasetName": "V20 data",
+  "classification": "string",
+  "license": "CC-BY",
+  "version": "string",
+  "isPublished": true,
+  "ownerGroup": "ess",
+  "accessGroups": [
+    "string"
+  ],
+  "createdBy": "string",
+  "updatedBy": "string",
+  "createdAt": "2019-03-20T12:39:37.646Z",
+  "updatedAt": "2019-03-20T12:39:37.646Z",
+  "sampleId": "string",
+  "proposalId": "string",
+  "datasetlifecycle": {
+    "archivable": true,
+    "retrievable": true,
+    "publishable": true,
+    "dateOfDiskPurging": "2019-03-20T12:39:37.646Z",
+    "archiveRetentionTime": "2019-03-20T12:39:37.646Z",
+    "dateOfPublishing": "2019-03-20T12:39:37.646Z",
+    "isOnCentralDisk": true,
+    "archiveStatusMessage": "string",
+    "retrieveStatusMessage": "string",
+    "archiveReturnMessage": {},
+    "retrieveReturnMessage": {},
+    "exportedTo": "string",
+    "retrieveIntegrityCheck": true
+  },
+  "history": [
+    {
+      "id": "string"
+    }
+  ]
+}

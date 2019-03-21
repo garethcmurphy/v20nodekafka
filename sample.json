@@ -9,6 +9,7 @@
   ],
   "ownerGroup": "ess",
   "accessGroups": [
+    "ess",
     "odin",
     "loki",
     "nmx"

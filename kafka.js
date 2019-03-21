@@ -100,7 +100,7 @@ async function postToSciCat(token, message, config) {
     "endTime": "2019-03-20T12:39:37.646Z",
     "creationLocation": defaultDataset.creationLocation,
     "dataFormat": defaultDataset.dataFormat,
-    "scientificMetadata": message,
+    "scientificMetadata": JSON.parse(message.value),
     "owner":  defaultDataset.owner,
     "ownerEmail": defaultDataset.ownerEmail,
     "orcidOfOwner":  defaultDataset.orcidOfOwner,
@@ -111,9 +111,7 @@ async function postToSciCat(token, message, config) {
     "creationTime": "2019-03-20T12:39:37.646Z",
     "type": "string",
     "validationStatus": "string",
-    "keywords": [
-      "string"
-    ],
+    "keywords": defaultDataset.keywords,
     "description":   defaultDataset.description,
     "datasetName":  defaultDataset.datasetName,
     "classification":  defaultDataset.classification,

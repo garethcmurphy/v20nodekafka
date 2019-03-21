@@ -15,7 +15,7 @@
   "type": "string",
   "validationStatus": "string",
   "keywords": [
-    "string"
+    "v20", "neutron"
   ],
   "description": "V20 data",
   "datasetName": "V20 data",
@@ -32,7 +32,7 @@
   "createdAt": "2019-03-20T12:39:37.646Z",
   "updatedAt": "2019-03-20T12:39:37.646Z",
   "sampleId": "string",
-  "proposalId": "string",
+  "proposalId": "v20",
   "datasetlifecycle": {
     "archivable": true,
     "retrievable": true,

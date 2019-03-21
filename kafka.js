@@ -1,5 +1,6 @@
 "use strict";
 
+const shortid = require('shortid');
 var kafka = require("kafka-node");
 var fs = require("fs");
 var rp = require("request-promise");
@@ -39,8 +40,11 @@ client.refreshMetadata([topic], err => {
 });
 
   async function sendtoscicat(message, config) {
+
     var x = await loginToScicat(config);
-    var y = await postToSciCat(x, message, config);
+    let sampleId = shortid.generate();
+    var y = await postToSciCat(x, message, config, sampleId);
+    var z = await sampleToSciCat(x, message, config, sampleId);
   }
 
 consumer.on("message", function(message) {
@@ -90,7 +94,7 @@ async function loginToScicat( config) {
 }
 
 
-async function postToSciCat(token, message, config) {
+async function postToSciCat(token, message, config, sampleId) {
   console.log("posting to scicat");
   let url = "http://"+config.scicatIP+"/api/v3/RawDatasets/"+"?access_token="+token.id;
   console.log(url);
@@ -126,7 +130,7 @@ async function postToSciCat(token, message, config) {
     "updatedBy": "string",
     "createdAt": "2019-03-20T12:39:37.646Z",
     "updatedAt": "2019-03-20T12:39:37.646Z",
-    "sampleId": "string",
+    "sampleId": sampleId,
     "proposalId": defaultDataset.proposalId,
     "datasetlifecycle": {
       "archivable": true,
@@ -148,6 +152,44 @@ async function postToSciCat(token, message, config) {
         "id": "string"
       }
     ]
+  }
+
+  
+  console.log(dataset);
+  let options1 = {
+    url: url,
+    method: "POST",
+    body: dataset,
+    json: true,
+    rejectUnauthorized: false
+  };
+  try {
+    console.log(options1);
+    const response = await rp(options1);
+    console.log(response);
+    return Promise.resolve(response);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
+
+async function sampleToSciCat(token, message, config, sampleId) {
+  console.log("sample to scicat");
+  let url = "http://"+config.scicatIP+"/api/v3/Samples/"+"?access_token="+token.id;
+  console.log(url);
+  var defaultDataset = readjson("sample.json");
+  let dataset = {
+    "samplelId": sampleId,
+    "owner": defaultDataset.owner,
+    "description": defaultDataset.description,
+    "createdAt": "2019-03-21T13:22:42.132Z",
+    "sampleCharacteristics": {},
+    "attachments": [
+      "string"
+    ],
+    "ownerGroup": defaultDataset.ownerGroup,
+    "accessGroups": defaultDataset.accessGroups
   }
 
   

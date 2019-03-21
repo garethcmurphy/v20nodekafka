@@ -1,0 +1,16 @@
+{
+  "samplelId": "string",
+  "owner": "Tobias Richter",
+  "description": "Sample for V20",
+  "createdAt": "2019-03-21T13:22:42.132Z",
+  "sampleCharacteristics": {},
+  "attachments": [
+    "string"
+  ],
+  "ownerGroup": "ess",
+  "accessGroups": [
+    "odin",
+    "loki",
+    "nmx"
+  ]
+}

@@ -108,7 +108,7 @@ async function postToSciCat(token, message, config) {
     "sourceFolder":  defaultDataset.sourceFolder,
     "size": 0,
     "packedSize": 0,
-    "creationTime": "2019-03-20T12:39:37.646Z",
+    "creationTime": new Date(Date.now());
     "type": "string",
     "validationStatus": "string",
     "keywords": defaultDataset.keywords,

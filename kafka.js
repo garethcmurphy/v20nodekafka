@@ -127,7 +127,7 @@ async function postToSciCat(token, message, config) {
     "createdAt": "2019-03-20T12:39:37.646Z",
     "updatedAt": "2019-03-20T12:39:37.646Z",
     "sampleId": "string",
-    "proposalId": "string",
+    "proposalId": defaultDataset.proposalId,
     "datasetlifecycle": {
       "archivable": true,
       "retrievable": true,

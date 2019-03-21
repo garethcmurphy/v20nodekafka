@@ -7,12 +7,18 @@ var Consumer = kafka.Consumer;
 var Offset = kafka.Offset;
 var Client = kafka.KafkaClient;
 var argv = require("optimist").argv;
-var v20topic = "the_status_topic";
-var dmsctopic = "scicat";
-var topic = argv.topic || dmsctopic;
 
+function readjson(filename) {
+  return JSON.parse(fs.readFileSync(filename, "utf-8"));
+}
+
+var config = readjson("config.json");
 var v20ip = "172.24.0.207";
-var dmscip = "172.17.5.38";
+var dmscip = config.kafkaIP;
+var v20topic = "the_status_topic";
+var url = config.url;
+var dmsctopic = config.topic
+var topic = argv.topic || dmsctopic;
 var client = new Client({ kafkaHost: dmscip + ":9092" });
 var topics = [{ topic: topic, partition: 0 }];
 var options = {
@@ -32,13 +38,13 @@ client.refreshMetadata([topic], err => {
   }
 });
 
-  async function sendtoscicat(message) {
-    var x = await loginToScicat();
-    var y = await postToSciCat(x, message);
+  async function sendtoscicat(message, config) {
+    var x = await loginToScicat(config);
+    var y = await postToSciCat(x, message, config);
   }
 
 consumer.on("message", function(message) {
-  sendtoscicat(message);
+  sendtoscicat(message , config);
   //console.log(message);
 });
 
@@ -60,13 +66,10 @@ consumer.on("offsetOutOfRange", function(topic) {
   });
 });
 
-function readjson(filename) {
-  return JSON.parse(fs.readFileSync(filename, "utf-8"));
-}
 
-async function loginToScicat(data) {
+async function loginToScicat( config) {
   console.log("login to scicat");
-  let url = "http://localhost:3000/api/v3/Users/login";
+  let url = "http://"+config.scicatIP+"/api/v3/Users/login";
   let rawdata = readjson("user.json");
   console.log(rawdata);
   let options1 = {
@@ -87,9 +90,9 @@ async function loginToScicat(data) {
 }
 
 
-async function postToSciCat(token, message) {
+async function postToSciCat(token, message, config) {
   console.log("posting to scicat");
-  let url = "http://localhost:3000/api/v3/RawDatasets/"+"?access_token="+token.id;
+  let url = "http://"+config.scicatIP+"/api/v3/RawDatasets/"+"?access_token="+token.id;
   console.log(url);
   let dataset = {
     "principalInvestigator": "string",

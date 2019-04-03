@@ -234,7 +234,7 @@ async function sampleToSciCat(token, message, config, sampleId) {
       "accessGroups": defaultDataset.accessGroups,
       "createdBy": "string",
       "updatedBy": "string",
-      "datasetId": "string",
+      "datasetId": dataset.pid,
       "rawDatasetId": "string",
       "derivedDatasetId": "string",
       "createdAt": "2019-04-03T08:25:27.122Z",

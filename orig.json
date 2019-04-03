@@ -1,0 +1,29 @@
+{
+  "id": "string",
+  "size": 0,
+  "dataFileList": [
+    {
+      "path": "/data/v20/testnexus.nxs",
+      "size": 0,
+      "time": "2019-04-03T08:25:27.122Z",
+      "chk": "34782",
+      "uid": "101",
+      "gid": "101",
+      "perm": "755"
+    }
+  ],
+  "ownerGroup": "ess",
+  "accessGroups": [
+    "ess",
+    "odin",
+    "loki",
+    "nmx"
+  ],
+  "createdBy": "string",
+  "updatedBy": "string",
+  "datasetId": "string",
+  "rawDatasetId": "string",
+  "derivedDatasetId": "string",
+  "createdAt": "2019-04-03T08:25:27.122Z",
+  "updatedAt": "2019-04-03T08:25:27.122Z"
+}

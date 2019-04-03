@@ -43,8 +43,9 @@ client.refreshMetadata([topic], err => {
 
     var x = await loginToScicat(config);
     let sampleId = shortid.generate();
-    var y = await postToSciCat(x, message, config, sampleId);
+    var dataset = await postToSciCat(x, message, config, sampleId);
     var z = await sampleToSciCat(x, message, config, sampleId);
+    var q = await origToSciCat(x,dataset, message, config, sampleId);
   }
 
 consumer.on("message", function(message) {
@@ -192,7 +193,53 @@ async function sampleToSciCat(token, message, config, sampleId) {
     "ownerGroup": defaultDataset.ownerGroup,
     "accessGroups": defaultDataset.accessGroups
   }
+  console.log(dataset);
+  let options1 = {
+    url: url,
+    method: "POST",
+    body: dataset,
+    json: true,
+    rejectUnauthorized: false
+  };
+  try {
+    console.log(options1);
+    const response = await rp(options1);
+    console.log(response);
+    return Promise.resolve(response);
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
 
+
+  async function origToSciCat(token, dataset, message, config, sampleId) {
+    console.log("orig to scicat");
+    let url = "http://"+config.scicatIP+"/api/v3/OrigDatablocks/"+"?access_token="+token.id;
+    console.log(url);
+    var defaultDataset = readjson("orig.json");
+    let dataset = {
+      "size": 0,
+      "dataFileList": [
+        {
+          "path": "/data/v20/testnexus.nxs",
+          "size": 0,
+          "time": "2019-04-03T08:25:27.122Z",
+          "chk": "34782",
+          "uid": "101",
+          "gid": "101",
+          "perm": "755"
+        }
+      ],
+      "ownerGroup": defaultDataset.ownerGroup,
+      "accessGroups": defaultDataset.accessGroups,
+      "createdBy": "string",
+      "updatedBy": "string",
+      "datasetId": "string",
+      "rawDatasetId": "string",
+      "derivedDatasetId": "string",
+      "createdAt": "2019-04-03T08:25:27.122Z",
+      "updatedAt": "2019-04-03T08:25:27.122Z"
+    }
   
   console.log(dataset);
   let options1 = {

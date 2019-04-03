@@ -99,13 +99,14 @@ async function postToSciCat(token, message, config, sampleId) {
   console.log("posting to scicat");
   let url = "http://"+config.scicatIP+"/api/v3/RawDatasets/"+"?access_token="+token.id;
   console.log(url);
+  let fileName = "default.nxs";
   var scimet = message.value.replace(/\n/g, '');
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
   var defaultDataset = readjson("dataset.json");
   let dataset = {
     "principalInvestigator": defaultDataset.principalInvestigator,
-    "endTime": "2019-03-20T12:39:37.646Z",
+    "endTime": new Date(Date.now()),
     "creationLocation": defaultDataset.creationLocation,
     "dataFormat": defaultDataset.dataFormat,
     "scientificMetadata": scimetObject,
@@ -217,13 +218,18 @@ async function sampleToSciCat(token, message, config, sampleId) {
     let url = "http://"+config.scicatIP+"/api/v3/OrigDatablocks/"+"?access_token="+token.id;
     console.log(url);
     var defaultDataset = readjson("orig.json");
+  if (message.hasOwnProperty("file_attributes")) {
+    if (message.file_attributes.hasOwnProperty("file_name")) {
+      fileName = message.file_attributes.file_name;
+    }
+  }
     let orig = {
       "size": 0,
       "dataFileList": [
         {
-          "path": "/data/v20/testnexus.nxs",
+          "path": fileName,
           "size": 0,
-          "time": "2019-04-03T08:25:27.122Z",
+          "time": new Date(Date.now()),
           "chk": "34782",
           "uid": "101",
           "gid": "101",

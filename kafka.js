@@ -218,18 +218,14 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
   console.log(url);
   var defaultDataset = readjson("orig.json");
   let fileName = "default.nxs";
-  if (message.hasOwnProperty("file_attributes")) {
-    if (message.file_attributes.hasOwnProperty("file_name")) {
-      fileName = message.file_attributes.file_name;
-    }
-  }
+  fileName = dataset.scientificMetadata.file_attributes.file_name;
   let orig = {
     "size": 0,
     "dataFileList": [
       {
         "path": fileName,
         "size": 0,
-        "time": new Date(Date.now()),
+        "time": dataset.endTime,
         "chk": "34782",
         "uid": "101",
         "gid": "101",

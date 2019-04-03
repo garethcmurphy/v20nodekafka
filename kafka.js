@@ -217,7 +217,7 @@ async function sampleToSciCat(token, message, config, sampleId) {
     let url = "http://"+config.scicatIP+"/api/v3/OrigDatablocks/"+"?access_token="+token.id;
     console.log(url);
     var defaultDataset = readjson("orig.json");
-    let dataset = {
+    let orig = {
       "size": 0,
       "dataFileList": [
         {
@@ -241,11 +241,11 @@ async function sampleToSciCat(token, message, config, sampleId) {
       "updatedAt": "2019-04-03T08:25:27.122Z"
     }
   
-  console.log(dataset);
+  console.log(orig);
   let options1 = {
     url: url,
     method: "POST",
-    body: dataset,
+    body: orig,
     json: true,
     rejectUnauthorized: false
   };

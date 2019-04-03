@@ -39,30 +39,30 @@ client.refreshMetadata([topic], err => {
   }
 });
 
-  async function sendtoscicat(message, config) {
+async function sendtoscicat(message, config) {
 
-    var x = await loginToScicat(config);
-    let sampleId = shortid.generate();
-    var dataset = await postToSciCat(x, message, config, sampleId);
-    var z = await sampleToSciCat(x, message, config, sampleId);
-    var q = await origToSciCat(x,dataset, message, config, sampleId);
-  }
+  var x = await loginToScicat(config);
+  let sampleId = shortid.generate();
+  var dataset = await postToSciCat(x, message, config, sampleId);
+  var z = await sampleToSciCat(x, message, config, sampleId);
+  var q = await origToSciCat(x, dataset, message, config, sampleId);
+}
 
-consumer.on("message", function(message) {
-  sendtoscicat(message , config);
+consumer.on("message", function (message) {
+  sendtoscicat(message, config);
   //console.log(message);
 });
 
-consumer.on("error", function(err) {
+consumer.on("error", function (err) {
   console.log("error", err);
 });
 
 /*
  * If consumer get `offsetOutOfRange` event, fetch data from the smallest(oldest) offset
  */
-consumer.on("offsetOutOfRange", function(topic) {
+consumer.on("offsetOutOfRange", function (topic) {
   topic.maxNum = 2;
-  offset.fetch([topic], function(err, offsets) {
+  offset.fetch([topic], function (err, offsets) {
     if (err) {
       return console.error(err);
     }
@@ -72,9 +72,9 @@ consumer.on("offsetOutOfRange", function(topic) {
 });
 
 
-async function loginToScicat( config) {
+async function loginToScicat(config) {
   console.log("login to scicat");
-  let url = "http://"+config.scicatIP+"/api/v3/Users/login";
+  let url = "http://" + config.scicatIP + "/api/v3/Users/login";
   let rawdata = readjson("user.json");
   console.log(rawdata);
   let options1 = {
@@ -97,9 +97,8 @@ async function loginToScicat( config) {
 
 async function postToSciCat(token, message, config, sampleId) {
   console.log("posting to scicat");
-  let url = "http://"+config.scicatIP+"/api/v3/RawDatasets/"+"?access_token="+token.id;
+  let url = "http://" + config.scicatIP + "/api/v3/RawDatasets/" + "?access_token=" + token.id;
   console.log(url);
-  let fileName = "default.nxs";
   var scimet = message.value.replace(/\n/g, '');
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
@@ -110,24 +109,24 @@ async function postToSciCat(token, message, config, sampleId) {
     "creationLocation": defaultDataset.creationLocation,
     "dataFormat": defaultDataset.dataFormat,
     "scientificMetadata": scimetObject,
-    "owner":  defaultDataset.owner,
+    "owner": defaultDataset.owner,
     "ownerEmail": defaultDataset.ownerEmail,
-    "orcidOfOwner":  defaultDataset.orcidOfOwner,
-    "contactEmail":  defaultDataset.contactEmail,
-    "sourceFolder":  defaultDataset.sourceFolder,
+    "orcidOfOwner": defaultDataset.orcidOfOwner,
+    "contactEmail": defaultDataset.contactEmail,
+    "sourceFolder": defaultDataset.sourceFolder,
     "size": 0,
     "packedSize": 0,
     "creationTime": new Date(Date.now()),
     "type": "string",
     "validationStatus": "string",
     "keywords": defaultDataset.keywords,
-    "description":   defaultDataset.description,
-    "datasetName":  defaultDataset.datasetName,
-    "classification":  defaultDataset.classification,
-    "license":  defaultDataset.license,
-    "version":  defaultDataset.version,
-    "isPublished":  defaultDataset.isPublished,
-    "ownerGroup":  defaultDataset.ownerGroup,
+    "description": defaultDataset.description,
+    "datasetName": defaultDataset.datasetName,
+    "classification": defaultDataset.classification,
+    "license": defaultDataset.license,
+    "version": defaultDataset.version,
+    "isPublished": defaultDataset.isPublished,
+    "ownerGroup": defaultDataset.ownerGroup,
     "accessGroups": defaultDataset.accessGroups,
     "createdBy": "string",
     "updatedBy": "string",
@@ -157,7 +156,7 @@ async function postToSciCat(token, message, config, sampleId) {
     ]
   }
 
-  
+
   console.log(dataset);
   let options1 = {
     url: url,
@@ -179,7 +178,7 @@ async function postToSciCat(token, message, config, sampleId) {
 
 async function sampleToSciCat(token, message, config, sampleId) {
   console.log("sample to scicat");
-  let url = "http://"+config.scicatIP+"/api/v3/Samples/"+"?access_token="+token.id;
+  let url = "http://" + config.scicatIP + "/api/v3/Samples/" + "?access_token=" + token.id;
   console.log(url);
   var defaultDataset = readjson("sample.json");
   let dataset = {
@@ -213,40 +212,41 @@ async function sampleToSciCat(token, message, config, sampleId) {
 }
 
 
-  async function origToSciCat(token, dataset, message, config, sampleId) {
-    console.log("orig to scicat");
-    let url = "http://"+config.scicatIP+"/api/v3/OrigDatablocks/"+"?access_token="+token.id;
-    console.log(url);
-    var defaultDataset = readjson("orig.json");
+async function origToSciCat(token, dataset, message, config, sampleId) {
+  console.log("orig to scicat");
+  let url = "http://" + config.scicatIP + "/api/v3/OrigDatablocks/" + "?access_token=" + token.id;
+  console.log(url);
+  var defaultDataset = readjson("orig.json");
+  let fileName = "default.nxs";
   if (message.hasOwnProperty("file_attributes")) {
     if (message.file_attributes.hasOwnProperty("file_name")) {
       fileName = message.file_attributes.file_name;
     }
   }
-    let orig = {
-      "size": 0,
-      "dataFileList": [
-        {
-          "path": fileName,
-          "size": 0,
-          "time": new Date(Date.now()),
-          "chk": "34782",
-          "uid": "101",
-          "gid": "101",
-          "perm": "755"
-        }
-      ],
-      "ownerGroup": defaultDataset.ownerGroup,
-      "accessGroups": defaultDataset.accessGroups,
-      "createdBy": "string",
-      "updatedBy": "string",
-      "datasetId": dataset.pid,
-      "rawDatasetId": "string",
-      "derivedDatasetId": "string",
-      "createdAt": "2019-04-03T08:25:27.122Z",
-      "updatedAt": "2019-04-03T08:25:27.122Z"
-    }
-  
+  let orig = {
+    "size": 0,
+    "dataFileList": [
+      {
+        "path": fileName,
+        "size": 0,
+        "time": new Date(Date.now()),
+        "chk": "34782",
+        "uid": "101",
+        "gid": "101",
+        "perm": "755"
+      }
+    ],
+    "ownerGroup": defaultDataset.ownerGroup,
+    "accessGroups": defaultDataset.accessGroups,
+    "createdBy": "string",
+    "updatedBy": "string",
+    "datasetId": dataset.pid,
+    "rawDatasetId": "string",
+    "derivedDatasetId": "string",
+    "createdAt": "2019-04-03T08:25:27.122Z",
+    "updatedAt": "2019-04-03T08:25:27.122Z"
+  }
+
   console.log(orig);
   let options1 = {
     url: url,

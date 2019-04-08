@@ -103,8 +103,15 @@ async function postToSciCat(token, message, config, sampleId) {
   console.log(url);
   var scimet = message.value.replace(/\n/g, '');
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
+  let title = defaultDataset.datasetName;
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
+  if (scimetObject.nexus_structure.hasOwnProperty('children')) {
+    let entry = scimetObject.nexus_structure[0];
+    if (entry.hasOwnProperty('children')) {
+      const titleObject = entry[0];
+      title = entry[0].values;
+    }
     //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
   }
   var defaultDataset = readjson("dataset.json");

@@ -120,7 +120,7 @@ async function postToSciCat(token, message, config, sampleId) {
   }
   let fileName = "default.nxs"
   if (scimetObject.hasOwnProperty('file_attributes')) {
-    fileName = dataset.scientificMetadata.file_attributes.file_name;
+    fileName = scimetObject.file_attributes.file_name;
   }
   let newObject = {
     start_time : dateNow,

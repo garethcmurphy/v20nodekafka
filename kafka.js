@@ -251,8 +251,8 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
   console.log(url);
   var defaultDataset = readjson("orig.json");
   let fileName = "default.nxs";
-  if (dataset.scientificMetadata.hasOwnProperty('file_attributes')) {
-    fileName = dataset.scientificMetadata.file_attributes.file_name;
+  if (dataset.scientificMetadata.hasOwnProperty('file_name')) {
+    fileName = dataset.scientificMetadata.file_name;
   }
   let orig = {
     "size": 0,
@@ -272,7 +272,7 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
     "datasetId": dataset.pid
   }
 
-  console.log(orig);
+  // console.log(orig);
   let options1 = {
     url: url,
     method: "POST",

@@ -25,7 +25,7 @@ var topics = [{ topic: topic, partition: 0 }];
 var options = {
   autoCommit: false,
   fetchMaxWaitMs: 1000,
-  fetchMaxBytes: 3024 * 1024
+  fetchMaxBytes: 3024 * 2024
 };
 
 var consumer = new Consumer(client, topics, options);

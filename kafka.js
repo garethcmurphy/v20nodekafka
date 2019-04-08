@@ -187,16 +187,20 @@ async function postToSciCat(token, message, config, sampleId) {
 }
 
 
-async function sampleToSciCat(token, message, config, sampleId) {
+async function sampleToSciCat(token, data, config, sampleId) {
   console.log("sample to scicat");
   let url = "http://" + config.scicatIP + "/api/v3/Samples/" + "?access_token=" + token.id;
   console.log(url);
   let dateNow = new Date(Date.now());
   var defaultDataset = readjson("sample.json");
-  let dataset = {
+  let sample_description = defaultDataset.description;
+  if (data.scientificMetadata.hasOwnProperty('nexus_structure')) {
+    sample_description = data.scientificMetadata['nexus_structure']['children'][0]['children'][5]['children'][0]['values'];
+  }
+  let sample = {
     "samplelId": sampleId,
     "owner": defaultDataset.owner,
-    "description": defaultDataset.description,
+    "description": sample_description,
     "createdAt": dateNow,
     "sampleCharacteristics": {},
     "attachments": [
@@ -205,11 +209,11 @@ async function sampleToSciCat(token, message, config, sampleId) {
     "ownerGroup": defaultDataset.ownerGroup,
     "accessGroups": defaultDataset.accessGroups
   }
-  console.log(dataset);
+  console.log(sample);
   let options1 = {
     url: url,
     method: "POST",
-    body: dataset,
+    body: sample,
     json: true,
     rejectUnauthorized: false
   };

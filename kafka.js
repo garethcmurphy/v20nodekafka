@@ -182,7 +182,7 @@ async function postToSciCat(token, message, config, sampleId) {
     rejectUnauthorized: false
   };
   try {
-    console.log(options1);
+    //console.log(options1);
     const response = await rp(options1);
     //console.log(response);
     return Promise.resolve(response);
@@ -227,7 +227,7 @@ async function sampleToSciCat(token, data, config, sampleId) {
     rejectUnauthorized: false
   };
   try {
-    console.log(options1);
+    //console.log(options1);
     const response = await rp(options1);
     //console.log(response);
     return Promise.resolve(response);
@@ -273,7 +273,7 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
     rejectUnauthorized: false
   };
   try {
-    console.log(options1);
+    //console.log(options1);
     const response = await rp(options1);
     //console.log(response);
     return Promise.resolve(response);

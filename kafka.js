@@ -118,13 +118,16 @@ async function postToSciCat(token, message, config, sampleId) {
   if (scimetObject.hasOwnProperty('start_time')) {
     dateNow = new Date(scimetObject['start_time']);
   }
+  newObject = {
+    start_time = dateNow;
+  };
   //dateNow = message.timestamp;
   let dataset = {
     "principalInvestigator": defaultDataset.principalInvestigator,
     "endTime": dateNow,
     "creationLocation": defaultDataset.creationLocation,
     "dataFormat": defaultDataset.dataFormat,
-    "scientificMetadata": scimetObject,
+    "scientificMetadata": newObject,
     "owner": defaultDataset.owner,
     "ownerEmail": defaultDataset.ownerEmail,
     "orcidOfOwner": defaultDataset.orcidOfOwner,

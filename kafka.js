@@ -26,7 +26,8 @@ var options = {
   autoCommit: false,
   apiVersionRequest: true,
   fetchMaxWaitMs: 1000,
-  fetchMaxBytes: 4024 * 1024
+  fetchMaxBytes: 5* 1024 * 1024,
+  encoding: 'utf8'
 };
 
 var consumer = new Consumer(client, topics, options);

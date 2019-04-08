@@ -24,6 +24,7 @@ var client = new Client({ kafkaHost: dmscip + ":9093" });
 var topics = [{ topic: topic, partition: 0 }];
 var options = {
   autoCommit: false,
+  apiVersionRequest: true,
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 4024 * 1024
 };

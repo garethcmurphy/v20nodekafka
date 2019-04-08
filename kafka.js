@@ -25,7 +25,7 @@ var topics = [{ topic: topic, partition: 0 }];
 var options = {
   autoCommit: false,
   fetchMaxWaitMs: 1000,
-  fetchMaxBytes: 3024 * 2024
+  fetchMaxBytes: 4024 * 1024
 };
 
 var consumer = new Consumer(client, topics, options);
@@ -102,8 +102,8 @@ async function postToSciCat(token, message, config, sampleId) {
   var scimet = message.value.replace(/\n/g, '');
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
-  if (scimetObject.hasOwnProperty ('nexus_structure')) {
-    delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8]; 
+  if (scimetObject.hasOwnProperty('nexus_structure')) {
+    delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
   }
   if (scimetObject.hasOwnProperty('cmd')) {
     if (scimetObject['cmd'] === 'FileWriter_stop') {

@@ -103,9 +103,10 @@ async function postToSciCat(token, message, config, sampleId) {
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
   var defaultDataset = readjson("dataset.json");
+  let dateNow = new Date(Date.now());
   let dataset = {
     "principalInvestigator": defaultDataset.principalInvestigator,
-    "endTime": new Date(Date.now()),
+    "endTime": dateNow,
     "creationLocation": defaultDataset.creationLocation,
     "dataFormat": defaultDataset.dataFormat,
     "scientificMetadata": scimetObject,
@@ -116,7 +117,7 @@ async function postToSciCat(token, message, config, sampleId) {
     "sourceFolder": defaultDataset.sourceFolder,
     "size": 0,
     "packedSize": 0,
-    "creationTime": new Date(Date.now()),
+    "creationTime": dateNow,
     "type": "string",
     "validationStatus": "string",
     "keywords": defaultDataset.keywords,
@@ -130,17 +131,17 @@ async function postToSciCat(token, message, config, sampleId) {
     "accessGroups": defaultDataset.accessGroups,
     "createdBy": "string",
     "updatedBy": "string",
-    "createdAt": "2019-03-20T12:39:37.646Z",
-    "updatedAt": "2019-03-20T12:39:37.646Z",
+    "createdAt": dateNow,
+    "updatedAt": dateNow,
     "sampleId": sampleId,
     "proposalId": defaultDataset.proposalId,
     "datasetlifecycle": {
       "archivable": true,
       "retrievable": true,
       "publishable": true,
-      "dateOfDiskPurging": "2019-03-20T12:39:37.646Z",
-      "archiveRetentionTime": "2019-03-20T12:39:37.646Z",
-      "dateOfPublishing": "2019-03-20T12:39:37.646Z",
+      "dateOfDiskPurging": dateNow,
+      "archiveRetentionTime": dateNow,
+      "dateOfPublishing": dateNow,
       "isOnCentralDisk": true,
       "archiveStatusMessage": "string",
       "retrieveStatusMessage": "string",
@@ -180,12 +181,13 @@ async function sampleToSciCat(token, message, config, sampleId) {
   console.log("sample to scicat");
   let url = "http://" + config.scicatIP + "/api/v3/Samples/" + "?access_token=" + token.id;
   console.log(url);
+  let dateNow = new Date(Date.now());
   var defaultDataset = readjson("sample.json");
   let dataset = {
     "samplelId": sampleId,
     "owner": defaultDataset.owner,
     "description": defaultDataset.description,
-    "createdAt": "2019-03-21T13:22:42.132Z",
+    "createdAt": dateNow,
     "sampleCharacteristics": {},
     "attachments": [
       "string"
@@ -234,13 +236,7 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
     ],
     "ownerGroup": defaultDataset.ownerGroup,
     "accessGroups": defaultDataset.accessGroups,
-    "createdBy": "string",
-    "updatedBy": "string",
-    "datasetId": dataset.pid,
-    "rawDatasetId": "string",
-    "derivedDatasetId": "string",
-    "createdAt": "2019-04-03T08:25:27.122Z",
-    "updatedAt": "2019-04-03T08:25:27.122Z"
+    "datasetId": dataset.pid
   }
 
   console.log(orig);

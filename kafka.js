@@ -105,6 +105,11 @@ async function postToSciCat(token, message, config, sampleId) {
   if (scimetObject.hasOwnProperty ('nexus_structure')) {
     delete scimetObject['nexus_structure']['children'][0]['children'][4]; 
   }
+  if (scimetObject.hasOwnProperty('cmd')) {
+    if (scimetObject['cmd'] === 'FileWriter_stop') {
+      return;
+    }
+  }
   var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());
   let dataset = {

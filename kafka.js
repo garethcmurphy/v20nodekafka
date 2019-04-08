@@ -103,7 +103,7 @@ async function postToSciCat(token, message, config, sampleId) {
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty ('nexus_structure')) {
-    delete scimetObject['nexus_structure']['children'][0]['children'][4]; 
+    //delete scimetObject['nexus_structure']['children'][0]['children'][4]; 
   }
   if (scimetObject.hasOwnProperty('cmd')) {
     if (scimetObject['cmd'] === 'FileWriter_stop') {

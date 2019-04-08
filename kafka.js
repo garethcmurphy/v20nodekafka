@@ -116,7 +116,7 @@ async function postToSciCat(token, message, config, sampleId) {
   let dateNow = new Date(Date.now());
   console.log('message timestamp', message.timestamp)
   if (scimetObject.hasOwnProperty('start_time')) {
-    dateNow = new Date(scimetObject['start_time']); 
+    dateNow = new Date(scimetObject['start_time']);
   }
   //dateNow = message.timestamp;
   let dataset = {
@@ -199,8 +199,10 @@ async function sampleToSciCat(token, data, config, sampleId) {
   let dateNow = new Date(Date.now());
   var defaultDataset = readjson("sample.json");
   let sample_description = defaultDataset.description;
-  if (data.scientificMetadata.hasOwnProperty('nexus_structure')) {
-    sample_description = data.scientificMetadata['nexus_structure']['children'][0]['children'][5]['children'][0]['values'];
+  if (typeof data !== undefined) {
+    if (data.scientificMetadata.hasOwnProperty('nexus_structure')) {
+      sample_description = data.scientificMetadata['nexus_structure']['children'][0]['children'][5]['children'][0]['values'];
+    }
   }
   let sample = {
     "samplelId": sampleId,

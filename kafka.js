@@ -112,7 +112,8 @@ async function postToSciCat(token, message, config, sampleId) {
   }
   var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());
-  dateNow = message.timestamp;
+  console.log('message timestamp', message.timestamp)
+  //dateNow = message.timestamp;
   let dataset = {
     "principalInvestigator": defaultDataset.principalInvestigator,
     "endTime": dateNow,

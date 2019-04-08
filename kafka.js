@@ -46,7 +46,7 @@ async function sendtoscicat(message, config) {
   var x = await loginToScicat(config);
   let sampleId = shortid.generate();
   var dataset = await postToSciCat(x, message, config, sampleId);
-  var z = await sampleToSciCat(x, dataset, config, sampleId);
+  //var z = await sampleToSciCat(x, dataset, config, sampleId);
   var q = await origToSciCat(x, dataset, message, config, sampleId);
 }
 

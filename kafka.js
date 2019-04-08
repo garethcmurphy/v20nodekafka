@@ -118,7 +118,7 @@ async function postToSciCat(token, message, config, sampleId) {
   if (scimetObject.hasOwnProperty('start_time')) {
     dateNow = new Date(scimetObject['start_time']);
   }
-  newObject = {
+  let newObject = {
     start_time : dateNow
   };
   //dateNow = message.timestamp;

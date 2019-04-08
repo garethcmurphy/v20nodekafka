@@ -104,14 +104,20 @@ async function postToSciCat(token, message, config, sampleId) {
   var scimet = message.value.replace(/\n/g, '');
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   let title = defaultDataset.datasetName;
+  let chopper_rotation_speed_1 = { "u": "Hz", "v": "14" };
+  let chopper_rotation_speed_2 = { "u": "Hz", "v": "14" };
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
     if (scimetObject.nexus_structure.hasOwnProperty('children')) {
       let entry = scimetObject.nexus_structure[0];
       if (entry.hasOwnProperty('children')) {
-        const titleObject = entry[0];
+        const titleObject = entry.children[0];
         if (titleObject.hasOwnProperty('values')) {
           title = titleObject.values;
+        }
+        const instrumentObject = entry.children[1];
+        if (instrumentObject.hasOwnProperty('children')) {
+          ;
         }
       }
       //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
@@ -128,7 +134,9 @@ async function postToSciCat(token, message, config, sampleId) {
     }
     let newObject = {
       start_time: dateNow,
-      file_name: fileName
+      file_name: fileName,
+      chopper_rotation_speed_1: chopper_rotation_speed_1,
+      chopper_rotation_speed_2: chopper_rotation_speed_2
     };
     //dateNow = message.timestamp;
     let dataset = {

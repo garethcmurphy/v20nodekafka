@@ -103,7 +103,7 @@ async function postToSciCat(token, message, config, sampleId) {
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty ('nexus_structure')) {
-    delete scimetObject['nexus_structure'][0]; 
+    delete scimetObject['nexus_structure']['children'][0]['children'][4]; 
   }
   var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());

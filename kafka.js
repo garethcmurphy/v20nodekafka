@@ -119,7 +119,7 @@ async function postToSciCat(token, message, config, sampleId) {
     dateNow = new Date(scimetObject['start_time']);
   }
   newObject = {
-    start_time = dateNow
+    start_time : dateNow
   };
   //dateNow = message.timestamp;
   let dataset = {

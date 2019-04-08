@@ -47,7 +47,7 @@ async function sendtoscicat(message, config) {
   let sampleId = shortid.generate();
   var dataset = await postToSciCat(x, message, config, sampleId);
   //var z = await sampleToSciCat(x, dataset, config, sampleId);
-  var q = await origToSciCat(x, dataset, message, config, sampleId);
+  // var q = await origToSciCat(x, dataset, message, config, sampleId);
 }
 
 consumer.on("message", function (message) {
@@ -109,7 +109,7 @@ async function postToSciCat(token, message, config, sampleId) {
   }
   var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());
-  console.log('message timestamp', message.timestamp)
+  //console.log('message timestamp', message.timestamp)
   if (scimetObject.hasOwnProperty('start_time')) {
     dateNow = new Date(scimetObject['start_time']);
   }

@@ -107,11 +107,6 @@ async function postToSciCat(token, message, config, sampleId) {
   if (scimetObject.hasOwnProperty('nexus_structure')) {
     delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
   }
-  if (scimetObject.hasOwnProperty('cmd')) {
-    if (scimetObject['cmd'] === 'FileWriter_stop') {
-      return;
-    }
-  }
   var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());
   console.log('message timestamp', message.timestamp)
@@ -178,6 +173,11 @@ async function postToSciCat(token, message, config, sampleId) {
         "id": "string"
       }
     ]
+  }
+  if (scimetObject.hasOwnProperty('cmd')) {
+    if (scimetObject['cmd'] === 'FileWriter_stop') {
+      return;
+    }
   }
 
 

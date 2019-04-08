@@ -20,12 +20,12 @@ var v20topic = "the_status_topic";
 var url = config.url;
 var dmsctopic = config.topic
 var topic = argv.topic || dmsctopic;
-var client = new Client({ kafkaHost: dmscip + ":9092" });
+var client = new Client({ kafkaHost: dmscip + ":9093" });
 var topics = [{ topic: topic, partition: 0 }];
 var options = {
   autoCommit: false,
   fetchMaxWaitMs: 1000,
-  fetchMaxBytes: 1024 * 1024
+  fetchMaxBytes: 3024 * 3024
 };
 
 var consumer = new Consumer(client, topics, options);

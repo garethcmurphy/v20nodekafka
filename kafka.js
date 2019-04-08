@@ -106,197 +106,199 @@ async function postToSciCat(token, message, config, sampleId) {
   let title = defaultDataset.datasetName;
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
-  if (scimetObject.nexus_structure.hasOwnProperty('children')) {
-    let entry = scimetObject.nexus_structure[0];
-    if (entry.hasOwnProperty('children')) {
-      const titleObject = entry[0];
-      title = entry[0].values;
-    }
-    //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
-  }
-  var defaultDataset = readjson("dataset.json");
-  let dateNow = new Date(Date.now());
-  //console.log('message timestamp', message.timestamp)
-  if (scimetObject.hasOwnProperty('start_time')) {
-    dateNow = new Date(scimetObject['start_time']);
-  }
-  let fileName = "default.nxs"
-  if (scimetObject.hasOwnProperty('file_attributes')) {
-    fileName = scimetObject.file_attributes.file_name;
-  }
-  let newObject = {
-    start_time: dateNow,
-    file_name: fileName
-  };
-  //dateNow = message.timestamp;
-  let dataset = {
-    "principalInvestigator": defaultDataset.principalInvestigator,
-    "endTime": dateNow,
-    "creationLocation": defaultDataset.creationLocation,
-    "dataFormat": defaultDataset.dataFormat,
-    "scientificMetadata": newObject,
-    "owner": defaultDataset.owner,
-    "ownerEmail": defaultDataset.ownerEmail,
-    "orcidOfOwner": defaultDataset.orcidOfOwner,
-    "contactEmail": defaultDataset.contactEmail,
-    "sourceFolder": defaultDataset.sourceFolder,
-    "size": 0,
-    "packedSize": 0,
-    "creationTime": dateNow,
-    "type": "string",
-    "validationStatus": "string",
-    "keywords": defaultDataset.keywords,
-    "description": defaultDataset.description,
-    "datasetName": defaultDataset.datasetName,
-    "classification": defaultDataset.classification,
-    "license": defaultDataset.license,
-    "version": defaultDataset.version,
-    "isPublished": defaultDataset.isPublished,
-    "ownerGroup": defaultDataset.ownerGroup,
-    "accessGroups": defaultDataset.accessGroups,
-    "createdBy": "string",
-    "updatedBy": "string",
-    "createdAt": dateNow,
-    "updatedAt": dateNow,
-    "sampleId": sampleId,
-    "proposalId": defaultDataset.proposalId,
-    "datasetlifecycle": {
-      "archivable": true,
-      "retrievable": true,
-      "publishable": true,
-      "dateOfDiskPurging": dateNow,
-      "archiveRetentionTime": dateNow,
-      "dateOfPublishing": dateNow,
-      "isOnCentralDisk": true,
-      "archiveStatusMessage": "string",
-      "retrieveStatusMessage": "string",
-      "archiveReturnMessage": {},
-      "retrieveReturnMessage": {},
-      "exportedTo": "string",
-      "retrieveIntegrityCheck": true
-    },
-    "history": [
-      {
-        "id": "string"
+    if (scimetObject.nexus_structure.hasOwnProperty('children')) {
+      let entry = scimetObject.nexus_structure[0];
+      if (entry.hasOwnProperty('children')) {
+        const titleObject = entry[0];
+        if (titleObject.hasOwnProperty('values')) {
+          title = titleObject.values;
+        }
       }
-    ]
-  }
-  if (scimetObject.hasOwnProperty('cmd')) {
-    if (scimetObject['cmd'] === 'FileWriter_stop') {
-      return;
+      //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
     }
-  }
-
-
-  console.log(dataset);
-  let options1 = {
-    url: url,
-    method: "POST",
-    body: dataset,
-    json: true,
-    rejectUnauthorized: false
-  };
-  try {
-    //console.log(options1);
-    const response = await rp(options1);
-    //console.log(response);
-    return Promise.resolve(response);
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
-
-
-async function sampleToSciCat(token, data, config, sampleId) {
-  console.log("sample to scicat");
-  let url = "http://" + config.scicatIP + "/api/v3/Samples/" + "?access_token=" + token.id;
-  console.log(url);
-  let dateNow = new Date(Date.now());
-  var defaultDataset = readjson("sample.json");
-  let sample_description = defaultDataset.description;
-  if (typeof data !== undefined) {
-    if (data.scientificMetadata.hasOwnProperty('nexus_structure')) {
-      sample_description = data.scientificMetadata['nexus_structure']['children'][0]['children'][5]['children'][0]['values'];
+    var defaultDataset = readjson("dataset.json");
+    let dateNow = new Date(Date.now());
+    //console.log('message timestamp', message.timestamp)
+    if (scimetObject.hasOwnProperty('start_time')) {
+      dateNow = new Date(scimetObject['start_time']);
     }
-  }
-  let sample = {
-    "samplelId": sampleId,
-    "owner": defaultDataset.owner,
-    "description": sample_description,
-    "createdAt": dateNow,
-    "sampleCharacteristics": {
-      "description": sample_description
-    },
-    "attachments": [
-      "string"
-    ],
-    "ownerGroup": defaultDataset.ownerGroup,
-    "accessGroups": defaultDataset.accessGroups
-  }
-  console.log(sample);
-  let options1 = {
-    url: url,
-    method: "POST",
-    body: sample,
-    json: true,
-    rejectUnauthorized: false
-  };
-  try {
-    //console.log(options1);
-    const response = await rp(options1);
-    //console.log(response);
-    return Promise.resolve(response);
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
-
-
-async function origToSciCat(token, dataset, message, config, sampleId) {
-  console.log("orig to scicat");
-  let url = "http://" + config.scicatIP + "/api/v3/OrigDatablocks/" + "?access_token=" + token.id;
-  console.log(url);
-  var defaultDataset = readjson("orig.json");
-  let fileName = "default.nxs";
-  if (typeof dataset !== undefined) {
-    if (dataset.hasOwnProperty('scientificMetadata')) {
-      if (dataset.scientificMetadata.hasOwnProperty('file_name')) {
-        fileName = dataset.scientificMetadata.file_name;
+    let fileName = "default.nxs"
+    if (scimetObject.hasOwnProperty('file_attributes')) {
+      fileName = scimetObject.file_attributes.file_name;
+    }
+    let newObject = {
+      start_time: dateNow,
+      file_name: fileName
+    };
+    //dateNow = message.timestamp;
+    let dataset = {
+      "principalInvestigator": defaultDataset.principalInvestigator,
+      "endTime": dateNow,
+      "creationLocation": defaultDataset.creationLocation,
+      "dataFormat": defaultDataset.dataFormat,
+      "scientificMetadata": newObject,
+      "owner": defaultDataset.owner,
+      "ownerEmail": defaultDataset.ownerEmail,
+      "orcidOfOwner": defaultDataset.orcidOfOwner,
+      "contactEmail": defaultDataset.contactEmail,
+      "sourceFolder": defaultDataset.sourceFolder,
+      "size": 0,
+      "packedSize": 0,
+      "creationTime": dateNow,
+      "type": "string",
+      "validationStatus": "string",
+      "keywords": defaultDataset.keywords,
+      "description": defaultDataset.description,
+      "datasetName": title,
+      "classification": defaultDataset.classification,
+      "license": defaultDataset.license,
+      "version": defaultDataset.version,
+      "isPublished": defaultDataset.isPublished,
+      "ownerGroup": defaultDataset.ownerGroup,
+      "accessGroups": defaultDataset.accessGroups,
+      "createdBy": "string",
+      "updatedBy": "string",
+      "createdAt": dateNow,
+      "updatedAt": dateNow,
+      "sampleId": sampleId,
+      "proposalId": defaultDataset.proposalId,
+      "datasetlifecycle": {
+        "archivable": true,
+        "retrievable": true,
+        "publishable": true,
+        "dateOfDiskPurging": dateNow,
+        "archiveRetentionTime": dateNow,
+        "dateOfPublishing": dateNow,
+        "isOnCentralDisk": true,
+        "archiveStatusMessage": "string",
+        "retrieveStatusMessage": "string",
+        "archiveReturnMessage": {},
+        "retrieveReturnMessage": {},
+        "exportedTo": "string",
+        "retrieveIntegrityCheck": true
+      },
+      "history": [
+        {
+          "id": "string"
+        }
+      ]
+    }
+    if (scimetObject.hasOwnProperty('cmd')) {
+      if (scimetObject['cmd'] === 'FileWriter_stop') {
+        return;
       }
     }
-  }
-  let orig = {
-    "size": 0,
-    "dataFileList": [
-      {
-        "path": fileName,
-        "size": 0,
-        "time": dataset.endTime,
-        "chk": "34782",
-        "uid": "101",
-        "gid": "101",
-        "perm": "755"
-      }
-    ],
-    "ownerGroup": defaultDataset.ownerGroup,
-    "accessGroups": defaultDataset.accessGroups,
-    "datasetId": dataset.pid
+
+
+    console.log(dataset);
+    let options1 = {
+      url: url,
+      method: "POST",
+      body: dataset,
+      json: true,
+      rejectUnauthorized: false
+    };
+    try {
+      //console.log(options1);
+      const response = await rp(options1);
+      //console.log(response);
+      return Promise.resolve(response);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
-  // console.log(orig);
-  let options1 = {
-    url: url,
-    method: "POST",
-    body: orig,
-    json: true,
-    rejectUnauthorized: false
-  };
-  try {
-    //console.log(options1);
-    const response = await rp(options1);
-    //console.log(response);
-    return Promise.resolve(response);
-  } catch (error) {
-    return Promise.reject(error);
+
+  async function sampleToSciCat(token, data, config, sampleId) {
+    console.log("sample to scicat");
+    let url = "http://" + config.scicatIP + "/api/v3/Samples/" + "?access_token=" + token.id;
+    console.log(url);
+    let dateNow = new Date(Date.now());
+    var defaultDataset = readjson("sample.json");
+    let sample_description = defaultDataset.description;
+    if (typeof data !== undefined) {
+      if (data.scientificMetadata.hasOwnProperty('nexus_structure')) {
+        sample_description = data.scientificMetadata['nexus_structure']['children'][0]['children'][5]['children'][0]['values'];
+      }
+    }
+    let sample = {
+      "samplelId": sampleId,
+      "owner": defaultDataset.owner,
+      "description": sample_description,
+      "createdAt": dateNow,
+      "sampleCharacteristics": {
+        "description": sample_description
+      },
+      "attachments": [
+        "string"
+      ],
+      "ownerGroup": defaultDataset.ownerGroup,
+      "accessGroups": defaultDataset.accessGroups
+    }
+    console.log(sample);
+    let options1 = {
+      url: url,
+      method: "POST",
+      body: sample,
+      json: true,
+      rejectUnauthorized: false
+    };
+    try {
+      //console.log(options1);
+      const response = await rp(options1);
+      //console.log(response);
+      return Promise.resolve(response);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
-}
+
+
+  async function origToSciCat(token, dataset, message, config, sampleId) {
+    console.log("orig to scicat");
+    let url = "http://" + config.scicatIP + "/api/v3/OrigDatablocks/" + "?access_token=" + token.id;
+    console.log(url);
+    var defaultDataset = readjson("orig.json");
+    let fileName = "default.nxs";
+    if (typeof dataset !== undefined) {
+      if (dataset.hasOwnProperty('scientificMetadata')) {
+        if (dataset.scientificMetadata.hasOwnProperty('file_name')) {
+          fileName = dataset.scientificMetadata.file_name;
+        }
+      }
+    }
+    let orig = {
+      "size": 0,
+      "dataFileList": [
+        {
+          "path": fileName,
+          "size": 0,
+          "time": dataset.endTime,
+          "chk": "34782",
+          "uid": "101",
+          "gid": "101",
+          "perm": "755"
+        }
+      ],
+      "ownerGroup": defaultDataset.ownerGroup,
+      "accessGroups": defaultDataset.accessGroups,
+      "datasetId": dataset.pid
+    }
+
+    // console.log(orig);
+    let options1 = {
+      url: url,
+      method: "POST",
+      body: orig,
+      json: true,
+      rejectUnauthorized: false
+    };
+    try {
+      //console.log(options1);
+      const response = await rp(options1);
+      //console.log(response);
+      return Promise.resolve(response);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }

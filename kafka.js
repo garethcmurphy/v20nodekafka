@@ -105,7 +105,7 @@ async function postToSciCat(token, message, config, sampleId) {
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
-    delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
+    //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
   }
   var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());
@@ -118,8 +118,8 @@ async function postToSciCat(token, message, config, sampleId) {
     fileName = scimetObject.file_attributes.file_name;
   }
   let newObject = {
-    start_time : dateNow,
-    file_name : fileName
+    start_time: dateNow,
+    file_name: fileName
   };
   //dateNow = message.timestamp;
   let dataset = {

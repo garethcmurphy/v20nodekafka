@@ -103,7 +103,7 @@ async function postToSciCat(token, message, config, sampleId) {
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty ('nexus_structure')) {
-    delete scimetObject['nexus_structure'][0][4]; 
+    delete scimetObject['nexus_structure'][0]; 
   }
   var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());
@@ -223,7 +223,9 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
   console.log(url);
   var defaultDataset = readjson("orig.json");
   let fileName = "default.nxs";
-  fileName = dataset.scientificMetadata.file_attributes.file_name;
+  if (dataset.scientificMetadata.hasOwnProperty('file_attributes')) {
+    fileName = dataset.scientificMetadata.file_attributes.file_name;
+  }
   let orig = {
     "size": 0,
     "dataFileList": [

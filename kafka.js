@@ -26,7 +26,7 @@ var options = {
   autoCommit: false,
   apiVersionRequest: true,
   fetchMaxWaitMs: 1000,
-  fetchMaxBytes: 16* 1024 * 1024,
+  fetchMaxBytes: 16 * 1024 * 1024,
   encoding: 'utf8'
 };
 
@@ -181,7 +181,7 @@ async function postToSciCat(token, message, config, sampleId) {
   try {
     console.log(options1);
     const response = await rp(options1);
-    console.log(response);
+    //console.log(response);
     return Promise.resolve(response);
   } catch (error) {
     return Promise.reject(error);
@@ -204,7 +204,9 @@ async function sampleToSciCat(token, data, config, sampleId) {
     "owner": defaultDataset.owner,
     "description": sample_description,
     "createdAt": dateNow,
-    "sampleCharacteristics": {},
+    "sampleCharacteristics": {
+      "description": sample_description
+    },
     "attachments": [
       "string"
     ],
@@ -222,7 +224,7 @@ async function sampleToSciCat(token, data, config, sampleId) {
   try {
     console.log(options1);
     const response = await rp(options1);
-    console.log(response);
+    //console.log(response);
     return Promise.resolve(response);
   } catch (error) {
     return Promise.reject(error);
@@ -268,7 +270,7 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
   try {
     console.log(options1);
     const response = await rp(options1);
-    console.log(response);
+    //console.log(response);
     return Promise.resolve(response);
   } catch (error) {
     return Promise.reject(error);

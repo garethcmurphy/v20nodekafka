@@ -12,6 +12,7 @@
   "dependencies": {
     "kafka-node": "^4.0.2",
     "optimist": "^0.6.1",
+    "prettier": "^1.16.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "shortid": "^2.2.14"

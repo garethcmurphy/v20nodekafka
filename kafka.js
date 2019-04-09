@@ -31,7 +31,7 @@ var options = {
   encoding: 'utf8'
 };
 
-var consumer = new Consumer(client, topics, options);
+var consumer = new ConsumerGroup(client, topics, options);
 var offset = new Offset(client);
 offset.fetchLatestOffsets([topic], (err, offsets) => {
   if (err) {

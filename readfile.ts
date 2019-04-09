@@ -8,7 +8,7 @@ export class ReadFile {
 		const fs = require('fs');
 		var scimetObject = JSON.parse(fs.readFileSync(filename, 'utf8'));
 		let newObject = this.parse(scimetObject);
-		console.log(JSON.stringify(newObject, null,2 ));
+		console.log(JSON.stringify(newObject, null, 2));
 	}
 
 	parse(scimetObject) {
@@ -17,9 +17,20 @@ export class ReadFile {
 		let dateNow = new Date(2018, 1, 1);
 		let sample_description = "";
 		let chopper_rotation_speed_1 = { u: "Hz", v: "14" };
+		let chopper_rotation_speed_2 = { u: "Hz", v: "14" };
+		let chopper_rotation_speed_3 = { u: "Hz", v: "14" };
+		let chopper_rotation_speed_4 = { u: "Hz", v: "14" };
+		let chopper_rotation_speed_5 = { u: "Hz", v: "14" };
+		let chopper_rotation_speed_6 = { u: "Hz", v: "14" };
+		let chopper_rotation_speed_7 = { u: "Hz", v: "14" };
+		let chopper_rotation_speed_8 = { u: "Hz", v: "14" };
+		let chopper_phase_1 = { u: "deg", v: "0" };
+		let chopper_phase_2 = { u: "deg", v: "0" };
+		let chopper_phase_3 = { u: "deg", v: "0" };
+		let chopper_phase_4 = { u: "deg", v: "0" };
 		let fileName = "default.nxs"
 		if (scimetObject.hasOwnProperty('file_attributes')) {
-		  fileName = scimetObject.file_attributes.file_name;
+			fileName = scimetObject.file_attributes.file_name;
 		}
 		if (scimetObject.hasOwnProperty('nexus_structure')) {
 			if (scimetObject.nexus_structure.hasOwnProperty('children')) {
@@ -53,26 +64,30 @@ export class ReadFile {
 						}
 					}
 
-					const instrumentObject = entry.children.find(child => child.name === "instrument");
-					if (instrumentObject.hasOwnProperty('children')) {
-						let chop1 = instrumentObject.children[0];
-						if (chop1.hasOwnProperty('children')) {
-							const chop1_child = chop1.children.find(child => child.name == "speed");
-							if (chop1_child) {
-								chopper_rotation_speed_1.v = chop1_child.values;
-							}
-						}
-					}
+					this.get_chopper(entry, chopper_rotation_speed_1, "chopper_1", "speed");
+					this.get_chopper(entry, chopper_rotation_speed_2, "chopper_2", "speed");
+					this.get_chopper(entry, chopper_rotation_speed_3, "chopper_3", "speed");
+					this.get_chopper(entry, chopper_rotation_speed_4, "chopper_4", "speed");
+					this.get_chopper(entry, chopper_phase_1, "chopper_1", "phase");
+					this.get_chopper(entry, chopper_phase_2, "chopper_1", "phase");
+					this.get_chopper(entry, chopper_phase_3, "chopper_1", "phase");
+					this.get_chopper(entry, chopper_phase_4, "chopper_1", "phase");
 				}
-				//delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
 			}
+			//delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
 		}
 
 		newObject["start_time"] = dateNow;
 		newObject["file_name"] = fileName;
 		newObject["title"] = title;
 		newObject["chopper_rotation_speed_1"] = chopper_rotation_speed_1;
-		newObject["chopper_rotation_speed_2"] = chopper_rotation_speed_1;
+		newObject["chopper_rotation_speed_2"] = chopper_rotation_speed_2;
+		newObject["chopper_rotation_speed_3"] = chopper_rotation_speed_3;
+		newObject["chopper_rotation_speed_4"] = chopper_rotation_speed_4;
+		newObject["chopper_phase_1"] = chopper_phase_1;
+		newObject["chopper_phase_2"] = chopper_phase_2;
+		newObject["chopper_phase_3"] = chopper_phase_3;
+		newObject["chopper_phase_4"] = chopper_phase_4;
 		newObject["sample_description"] = sample_description;
 
 
@@ -84,6 +99,25 @@ export class ReadFile {
 	}
 
 
+
+	private get_chopper(entry: any, chopper_rotation_speed_1: { u: string; v: string; }, chopper:string, variable:string) {
+		const instrumentObject = entry.children.find(child => child.name === "instrument");
+		if (instrumentObject !== undefined) {
+			if (instrumentObject.hasOwnProperty('children')) {
+				console.log(instrumentObject.children);
+				const chop1_child = instrumentObject.children.find(child => child.name == chopper);
+				if (chop1_child !== undefined) {
+					if (chop1_child.hasOwnProperty('children')) {
+						console.log("speed");
+						const speed_child = chop1_child.children.find(child => child.name == variable);
+						if (speed_child != undefined) {
+							chopper_rotation_speed_1.v = speed_child.values;
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 

@@ -87,9 +87,9 @@ async function loginToScicat(config) {
     rejectUnauthorized: false
   };
   try {
-    console.log(options1);
+    //console.log(options1);
     const response = await rp(options1);
-    console.log(response);
+    //console.log(response);
     return Promise.resolve(response);
   } catch (error) {
     return Promise.reject(error);

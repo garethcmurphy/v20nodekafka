@@ -1,5 +1,6 @@
 var async = require('async');
-var ConsumerGroup = require('..').ConsumerGroup;
+var kafka = require("kafka-node");
+var ConsumerGroup = kafka.ConsumerGroup;
 
 var consumerOptions = {
     kafkaHost: '127.0.0.1:9093',

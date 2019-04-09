@@ -119,74 +119,12 @@ async function postToSciCat(token, message, config, sampleId) {
   console.log("offset",message.offset)
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var defaultDataset = readjson("dataset.json");
-  let title = defaultDataset.datasetName;
-  let sample_description = "V20 sample";
-  let chopper_rotation_speed_1 = { "u": "Hz", "v": "14" };
-  let chopper_rotation_speed_2 = { "u": "Hz", "v": "14" };
-  let dateNow =new Date(2018, 10, 1, 10, 33, 30, 0); 
   var scimetObject = JSON.parse(jsonFormattedString);
   const reader = new ReadFile();
   const newObject2=reader.parse(scimetObject);
+  let dateNow = newObject2.start_time;
+  let title = newObject2.title;
   console.log(newObject2);
-  if (scimetObject.hasOwnProperty('nexus_structure')) {
-    if (scimetObject.nexus_structure.hasOwnProperty('children')) {
-      let entry = scimetObject.nexus_structure.children.find(child => child.name === "entry");
-      if (entry.hasOwnProperty('children')) {
-        console.log(entry);
-
-        const titleObject = entry.children.find(child => child.name === "title");
-        if ( titleObject !== undefined) {
-          if (titleObject.hasOwnProperty('values')) {
-            console.log(titleObject);
-            title = titleObject.values;
-          }
-        }
-        const startObject = entry.children.find(child => child.name === "start_time");
-        if ( startObject !== undefined) {
-          if (startObject.hasOwnProperty('values')) {
-            console.log(startObject);
-            dateNow = startObject.values;
-          }
-        }
-
-        const sampleObject = entry.children.find(child => child.name === "sample");
-        if ( sampleObject !== undefined) {
-          if (sampleObject.hasOwnProperty('values')) {
-            console.log(sampleObject);
-            if (sampleObject.hasOwnProperty('children')){ 
-              const sample_child = sampleObject.children.find(child => child.name === "description");
-              sample_description = sample_child.values;
-            }
-          }
-        }
-
-        const instrumentObject =entry.children.find(child => child.name === "instrument");
-        if (instrumentObject.hasOwnProperty('children')) {
-          let chop1 = instrumentObject.children[0];
-          if (chop1.hasOwnProperty('children')) {
-            const chop1_child = chop1.children.find(child => child.name == "speed");
-            if (chop1_child) {
-              chopper_rotation_speed_1.v = chop1_child.values;
-            }
-          }
-        }
-      }
-      //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
-    }
-  }
-  //console.log('message timestamp', message.timestamp)
-  let fileName = "default.nxs"
-  if (scimetObject.hasOwnProperty('file_attributes')) {
-    fileName = scimetObject.file_attributes.file_name;
-  }
-  let newObject = {
-    start_time: dateNow,
-    file_name: fileName,
-    chopper_rotation_speed_1: chopper_rotation_speed_1,
-    chopper_rotation_speed_2: chopper_rotation_speed_2,
-    sample_description: sample_description
-  };
-  //dateNow = message.timestamp;
   let dataset = {
     "principalInvestigator": defaultDataset.principalInvestigator,
     "endTime": dateNow,

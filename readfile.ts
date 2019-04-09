@@ -70,6 +70,7 @@ export class ReadFile {
 
 		newObject["start_time"] = dateNow;
 		newObject["file_name"] = fileName;
+		newObject["title"] = title;
 		newObject["chopper_rotation_speed_1"] = chopper_rotation_speed_1;
 		newObject["chopper_rotation_speed_2"] = chopper_rotation_speed_1;
 		newObject["sample_description"] = sample_description;

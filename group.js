@@ -17,20 +17,6 @@ var consumerGroup = new ConsumerGroup(Object.assign({ id: 'consumer1' }, consume
 consumerGroup.on('error', onError);
 consumerGroup.on('message', onMessage);
 
-var consumerGroup2 = new ConsumerGroup(Object.assign({ id: 'consumer2' }, consumerOptions), topics);
-consumerGroup2.on('error', onError);
-consumerGroup2.on('message', onMessage);
-consumerGroup2.on('connect', function () {
-    setTimeout(function () {
-        consumerGroup2.close(true, function (error) {
-            console.log('consumer2 closed', error);
-        });
-    }, 25000);
-});
-
-var consumerGroup3 = new ConsumerGroup(Object.assign({ id: 'consumer3' }, consumerOptions), topics);
-consumerGroup3.on('error', onError);
-consumerGroup3.on('message', onMessage);
 
 function onError(error) {
     console.error(error);
@@ -48,7 +34,7 @@ function onMessage(message) {
 }
 
 process.once('SIGINT', function () {
-    async.each([consumerGroup, consumerGroup2, consumerGroup3], function (consumer, callback) {
+    async.each([consumerGroup  ], function (consumer, callback) {
         consumer.close(true, callback);
     });
 });

@@ -126,7 +126,7 @@ async function postToSciCat(token, message, config, sampleId) {
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
     if (scimetObject.nexus_structure.hasOwnProperty('children')) {
-      let entry = scimetObject.nexus_structure.children[0];
+      let entry = scimetObject.nexus_structure.children.find(child => child.name === "entry");
       if (entry.hasOwnProperty('children')) {
         console.log(entry);
 
@@ -156,7 +156,7 @@ async function postToSciCat(token, message, config, sampleId) {
           }
         }
 
-        const instrumentObject = entry.children[2];
+        const instrumentObject =entry.children.find(child => child.name === "instrument");
         if (instrumentObject.hasOwnProperty('children')) {
           let chop1 = instrumentObject.children[0];
           if (chop1.hasOwnProperty('children')) {

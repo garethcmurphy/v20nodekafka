@@ -121,7 +121,7 @@ async function postToSciCat(token, message, config, sampleId) {
   let title = defaultDataset.datasetName;
   let chopper_rotation_speed_1 = { "u": "Hz", "v": "14" };
   let chopper_rotation_speed_2 = { "u": "Hz", "v": "14" };
-  let dateNow = new Date(Date.now());
+  let dateNow =new Date(2018, 11, 24, 10, 33, 30, 0); 
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
     if (scimetObject.nexus_structure.hasOwnProperty('children')) {

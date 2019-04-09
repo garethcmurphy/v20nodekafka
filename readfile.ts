@@ -1,5 +1,7 @@
 "use strict";
 
+import { stringify } from "querystring";
+
 var fs = require('fs');
 export class ReadFile {
 
@@ -28,6 +30,7 @@ export class ReadFile {
 		let chopper_phase_2 = { u: "deg", v: "0" };
 		let chopper_phase_3 = { u: "deg", v: "0" };
 		let chopper_phase_4 = { u: "deg", v: "0" };
+		let sample_temperature = { u: "C", v: "0" };
 		let fileName = "default.nxs"
 		if (scimetObject.hasOwnProperty("file_attributes")) {
 			fileName = scimetObject.file_attributes.file_name;
@@ -63,7 +66,13 @@ export class ReadFile {
 							}
 						}
 					}
-
+					let tmpObject = {};
+					for (let i = 1; i < 9; i++)
+					{
+						let tmpSpeed={u:"Hz",v:"0"};
+						this.get_chopper(entry, tmpSpeed, "chopper_"+i.toString(),"speed")
+						tmpObject["chopper_speed_" + i.toString()] = tmpSpeed;
+					}
 					this.get_chopper(entry, chopper_rotation_speed_1, "chopper_1", "speed");
 					this.get_chopper(entry, chopper_rotation_speed_2, "chopper_2", "speed");
 					this.get_chopper(entry, chopper_rotation_speed_3, "chopper_3", "speed");
@@ -92,6 +101,7 @@ export class ReadFile {
 		newObject["chopper_phase_3"] = chopper_phase_3;
 		newObject["chopper_phase_4"] = chopper_phase_4;
 		newObject["sample_description"] = sample_description;
+		newObject["sample_temperature"] = sample_temperature;
 
 
 		return newObject;

@@ -98,9 +98,15 @@ export class ReadFile {
 
 	}
 
+	get_file(filePath: string) {
+		const stats = fs.statSync(filePath);
+		let fileSize = stats.size;
+		return fileSize;
+	}
 
 
-	private get_chopper(entry: any, chopper_rotation_speed_1: { u: string; v: string; }, chopper:string, variable:string) {
+
+	private get_chopper(entry: any, chopper_rotation_speed_1: { u: string; v: string; }, chopper: string, variable: string) {
 		const instrumentObject = entry.children.find(child => child.name === "instrument");
 		if (instrumentObject !== undefined) {
 			if (instrumentObject.hasOwnProperty("children")) {

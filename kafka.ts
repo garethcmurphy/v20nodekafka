@@ -1,7 +1,7 @@
 "use strict";
 const { ReadFile } = require("./readfile");
 
-const shortid = require('shortid');
+const shortid = require("shortid");
 var kafka = require("kafka-node");
 var fs = require("fs");
 var rp = require("request-promise");
@@ -29,22 +29,22 @@ var options = {
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 16 * 1024 * 1024,
   fromOffset: true,
-  encoding: 'utf8'
+  encoding: "utf8"
 };
 
 var consumer = new Consumer(client, topics, options);
 var offset = new Offset(client);
 offset.fetchLatestOffsets([topic], (err, offsets) => {
   if (err) {
-      console.log(`error fetching latest offsets ${err}`)
-      return
+    console.log(`error fetching latest offsets ${err}`)
+    return
   }
   var latest = 1
-  Object.keys(offsets[topic]).forEach( o => {
+  Object.keys(offsets[topic]).forEach(o => {
     latest = offsets[topic][o] > latest ? offsets[topic][o] : latest;
     console.log("latest offset", latest);
   })
-  consumer.setOffset(topic, 0, latest-1)
+  consumer.setOffset(topic, 0, latest - 1)
 })
 
 // Refresh metadata required for the first message to go through
@@ -115,13 +115,13 @@ async function postToSciCat(token, message, config, sampleId) {
   console.log("posting to scicat");
   let url = "http://" + config.scicatIP + "/api/v3/RawDatasets/" + "?access_token=" + token.id;
   console.log(url);
-  var scimet = message.value.replace(/\n/g, '');
-  console.log("offset",message.offset)
+  var scimet = message.value.replace(/\n/g, "");
+  console.log("offset", message.offset)
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var defaultDataset = readjson("dataset.json");
   var scimetObject = JSON.parse(jsonFormattedString);
   const reader = new ReadFile();
-  const newObject2=reader.parse(scimetObject);
+  const newObject2 = reader.parse(scimetObject);
   let dateNow = newObject2.start_time;
   let title = newObject2.title;
   console.log(newObject2);
@@ -177,8 +177,8 @@ async function postToSciCat(token, message, config, sampleId) {
       }
     ]
   }
-  if (scimetObject.hasOwnProperty('cmd')) {
-    if (scimetObject['cmd'] === 'FileWriter_stop') {
+  if (scimetObject.hasOwnProperty("cmd")) {
+    if (scimetObject["cmd"] === "FileWriter_stop") {
       return;
     }
   }
@@ -212,8 +212,8 @@ async function sampleToSciCat(token, data, config, sampleId) {
   var defaultDataset = readjson("sample.json");
   let sample_description = defaultDataset.description;
   if (typeof data !== undefined) {
-    if (data.scientificMetadata.hasOwnProperty('nexus_structure')) {
-      sample_description = data.scientificMetadata['nexus_structure']['children'][0]['children'][5]['children'][0]['values'];
+    if (data.scientificMetadata.hasOwnProperty("nexus_structure")) {
+      sample_description = data.scientificMetadata["nexus_structure"]["children"][0]["children"][5]["children"][0]["values"];
     }
   }
   let sample = {
@@ -256,8 +256,8 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
   var defaultDataset = readjson("orig.json");
   let fileName = "default.nxs";
   if (typeof dataset !== undefined) {
-    if (dataset.hasOwnProperty('scientificMetadata')) {
-      if (dataset.scientificMetadata.hasOwnProperty('file_name')) {
+    if (dataset.hasOwnProperty("scientificMetadata")) {
+      if (dataset.scientificMetadata.hasOwnProperty("file_name")) {
         fileName = dataset.scientificMetadata.file_name;
       }
     }

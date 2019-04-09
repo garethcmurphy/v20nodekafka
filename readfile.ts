@@ -4,9 +4,9 @@
 export class ReadFile {
 
 	read() {
-		var filename = 'out.json';
-		const fs = require('fs');
-		var scimetObject = JSON.parse(fs.readFileSync(filename, 'utf8'));
+		var filename = "out.json";
+		const fs = require("fs");
+		var scimetObject = JSON.parse(fs.readFileSync(filename, "utf8"));
 		let newObject = this.parse(scimetObject);
 		console.log(JSON.stringify(newObject, null, 2));
 	}
@@ -29,25 +29,25 @@ export class ReadFile {
 		let chopper_phase_3 = { u: "deg", v: "0" };
 		let chopper_phase_4 = { u: "deg", v: "0" };
 		let fileName = "default.nxs"
-		if (scimetObject.hasOwnProperty('file_attributes')) {
+		if (scimetObject.hasOwnProperty("file_attributes")) {
 			fileName = scimetObject.file_attributes.file_name;
 		}
-		if (scimetObject.hasOwnProperty('nexus_structure')) {
-			if (scimetObject.nexus_structure.hasOwnProperty('children')) {
+		if (scimetObject.hasOwnProperty("nexus_structure")) {
+			if (scimetObject.nexus_structure.hasOwnProperty("children")) {
 				let entry = scimetObject.nexus_structure.children.find(child => child.name === "entry");
-				if (entry.hasOwnProperty('children')) {
+				if (entry.hasOwnProperty("children")) {
 					console.log(entry);
 
 					const titleObject = entry.children.find(child => child.name === "title");
 					if (titleObject !== undefined) {
-						if (titleObject.hasOwnProperty('values')) {
+						if (titleObject.hasOwnProperty("values")) {
 							console.log(titleObject);
 							title = titleObject.values;
 						}
 					}
 					const startObject = entry.children.find(child => child.name === "start_time");
 					if (startObject !== undefined) {
-						if (startObject.hasOwnProperty('values')) {
+						if (startObject.hasOwnProperty("values")) {
 							console.log(startObject);
 							dateNow = startObject.values;
 						}
@@ -56,9 +56,9 @@ export class ReadFile {
 					const sampleObject = entry.children.find(child => child.name === "sample");
 					if (sampleObject !== undefined) {
 						console.log(sampleObject);
-						if (sampleObject.hasOwnProperty('children')) {
+						if (sampleObject.hasOwnProperty("children")) {
 							const sample_child = sampleObject.children.find(child => child.name === "description");
-							if (sample_child.hasOwnProperty('values')) {
+							if (sample_child.hasOwnProperty("values")) {
 								sample_description = sample_child.values;
 							}
 						}
@@ -69,12 +69,12 @@ export class ReadFile {
 					this.get_chopper(entry, chopper_rotation_speed_3, "chopper_3", "speed");
 					this.get_chopper(entry, chopper_rotation_speed_4, "chopper_4", "speed");
 					this.get_chopper(entry, chopper_phase_1, "chopper_1", "phase");
-					this.get_chopper(entry, chopper_phase_2, "chopper_1", "phase");
-					this.get_chopper(entry, chopper_phase_3, "chopper_1", "phase");
-					this.get_chopper(entry, chopper_phase_4, "chopper_1", "phase");
+					this.get_chopper(entry, chopper_phase_2, "chopper_2", "phase");
+					this.get_chopper(entry, chopper_phase_3, "chopper_3", "phase");
+					this.get_chopper(entry, chopper_phase_4, "chopper_4", "phase");
 				}
 			}
-			//delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
+			//delete scimetObject["nexus_structure"]["children"][0]["children"][4]["children"][8];
 		}
 
 		newObject["start_time"] = dateNow;
@@ -103,11 +103,11 @@ export class ReadFile {
 	private get_chopper(entry: any, chopper_rotation_speed_1: { u: string; v: string; }, chopper:string, variable:string) {
 		const instrumentObject = entry.children.find(child => child.name === "instrument");
 		if (instrumentObject !== undefined) {
-			if (instrumentObject.hasOwnProperty('children')) {
+			if (instrumentObject.hasOwnProperty("children")) {
 				console.log(instrumentObject.children);
 				const chop1_child = instrumentObject.children.find(child => child.name == chopper);
 				if (chop1_child !== undefined) {
-					if (chop1_child.hasOwnProperty('children')) {
+					if (chop1_child.hasOwnProperty("children")) {
 						console.log("speed");
 						const speed_child = chop1_child.children.find(child => child.name == variable);
 						if (speed_child != undefined) {

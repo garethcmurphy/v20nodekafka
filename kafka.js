@@ -103,6 +103,7 @@ async function postToSciCat(token, message, config, sampleId) {
   console.log(url);
   var scimet = message.value.replace(/\n/g, '');
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
+  var defaultDataset = readjson("dataset.json");
   let title = defaultDataset.datasetName;
   let chopper_rotation_speed_1 = { "u": "Hz", "v": "14" };
   let chopper_rotation_speed_2 = { "u": "Hz", "v": "14" };
@@ -123,7 +124,6 @@ async function postToSciCat(token, message, config, sampleId) {
       //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
     }
   }
-  var defaultDataset = readjson("dataset.json");
   let dateNow = new Date(Date.now());
   //console.log('message timestamp', message.timestamp)
   if (scimetObject.hasOwnProperty('start_time')) {

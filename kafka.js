@@ -27,7 +27,7 @@ var options = {
   apiVersionRequest: true,
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 16 * 1024 * 1024,
-  fromOffset: true,
+  fromOffset: -1,
   encoding: 'utf8'
 };
 

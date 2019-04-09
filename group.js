@@ -4,6 +4,7 @@ var ConsumerGroup = kafka.ConsumerGroup;
 
 var consumerOptions = {
     kafkaHost: '127.0.0.1:9093',
+    fetchMaxBytes: 16 * 1024 * 1024,
     groupId: 'ExampleTestGroup',
     sessionTimeout: 15000,
     protocol: ['roundrobin'],

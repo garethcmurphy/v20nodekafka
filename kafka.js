@@ -124,7 +124,7 @@ async function postToSciCat(token, message, config, sampleId) {
       let entry = scimetObject.nexus_structure.children[0];
       if (entry.hasOwnProperty('children')) {
         const titleObject = entry.children.find(child => child.name === "title");
-        if (titleObject.hasOwnProperty('values')) {
+        if (typeof titleObject !==  undefined && titleObject.hasOwnProperty('values')) {
           title = titleObject.values;
         }
         const instrumentObject = entry.children[2];

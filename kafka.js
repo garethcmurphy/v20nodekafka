@@ -161,7 +161,9 @@ async function postToSciCat(token, message, config, sampleId) {
           let chop1 = instrumentObject.children[0];
           if (chop1.hasOwnProperty('children')) {
             const chop1_child = chop1.children.find(child => child.name == "speed");
-            chopper_rotation_speed_1.v = chop1_child.values;
+            if (chop1_child) {
+              chopper_rotation_speed_1.v = chop1_child.values;
+            }
           }
         }
       }

@@ -199,7 +199,7 @@ async function postToSciCat(token, message, config, sampleId) {
   }
 
 
-  console.log(dataset);
+  console.log(dataset.scientificMetadata);
   let options1 = {
     url: url,
     method: "POST",

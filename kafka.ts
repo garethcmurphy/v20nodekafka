@@ -124,6 +124,7 @@ async function postToSciCat(token, message, config, sampleId) {
   const newObject2 = reader.parse(scimetObject);
   let dateNow = newObject2.start_time;
   let title = newObject2.title;
+  let size = newObject2.size;
   console.log(newObject2);
   let dataset = {
     "principalInvestigator": defaultDataset.principalInvestigator,
@@ -136,8 +137,8 @@ async function postToSciCat(token, message, config, sampleId) {
     "orcidOfOwner": defaultDataset.orcidOfOwner,
     "contactEmail": defaultDataset.contactEmail,
     "sourceFolder": defaultDataset.sourceFolder,
-    "size": 0,
-    "packedSize": 0,
+    "size": size,
+    "packedSize": size,
     "creationTime": dateNow,
     "type": "string",
     "validationStatus": "string",
@@ -267,7 +268,7 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
     "dataFileList": [
       {
         "path": fileName,
-        "size": 0,
+        "size": dataset.scientificMetadata.size,
         "time": dataset.endTime,
         "chk": "34782",
         "uid": "101",

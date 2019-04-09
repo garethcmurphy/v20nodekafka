@@ -116,11 +116,11 @@ export class ReadFile {
 		const instrumentObject = entry.children.find(child => child.name === "instrument");
 		if (instrumentObject !== undefined) {
 			if (instrumentObject.hasOwnProperty("children")) {
-				console.log(instrumentObject.children);
+				//console.log(instrumentObject.children);
 				const chop1_child = instrumentObject.children.find(child => child.name == chopper);
 				if (chop1_child !== undefined) {
 					if (chop1_child.hasOwnProperty("children")) {
-						console.log("speed");
+						//console.log("speed");
 						const speed_child = chop1_child.children.find(child => child.name == variable);
 						if (speed_child != undefined) {
 							chopper_rotation_speed_1.v = speed_child.values;

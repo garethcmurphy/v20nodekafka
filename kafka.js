@@ -24,6 +24,7 @@ var topic = argv.topic || dmsctopic;
 var client = new Client({ kafkaHost: dmscip + ":9093" });
 var topics = [{ topic: topic, partition: 0 }];
 var options = {
+  kafkaHost: dmscip+":9093",
   autoCommit: false,
   apiVersionRequest: true,
   fetchMaxWaitMs: 1000,
@@ -32,7 +33,7 @@ var options = {
   encoding: 'utf8'
 };
 
-var consumer = new ConsumerGroup(client, topics, options);
+var consumer = new ConsumerGroup(option, topics);
 var offset = new Offset(client);
 offset.fetchLatestOffsets([topic], (err, offsets) => {
   if (err) {

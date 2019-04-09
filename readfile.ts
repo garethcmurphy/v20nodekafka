@@ -1,6 +1,6 @@
 "use strict";
 
-
+var fs = require('fs');
 export class ReadFile {
 
 	read() {
@@ -77,9 +77,12 @@ export class ReadFile {
 			//delete scimetObject["nexus_structure"]["children"][0]["children"][4]["children"][8];
 		}
 
+		const size = this.getFileSize(fileName);
+
 		newObject["start_time"] = dateNow;
 		newObject["file_name"] = fileName;
 		newObject["title"] = title;
+		newObject["size"] = size;
 		newObject["chopper_rotation_speed_1"] = chopper_rotation_speed_1;
 		newObject["chopper_rotation_speed_2"] = chopper_rotation_speed_2;
 		newObject["chopper_rotation_speed_3"] = chopper_rotation_speed_3;
@@ -98,9 +101,12 @@ export class ReadFile {
 
 	}
 
-	get_file(filePath: string) {
-		const stats = fs.statSync(filePath);
-		let fileSize = stats.size;
+	getFileSize(filePath: string) {
+		let fileSize = 0;
+		if (fs.existsSync(filePath)) {
+			const stats = fs.statSync(filePath);
+			fileSize = stats.size;
+		}
 		return fileSize;
 	}
 

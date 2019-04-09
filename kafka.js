@@ -32,6 +32,17 @@ var options = {
 
 var consumer = new Consumer(client, topics, options);
 var offset = new Offset(client);
+offset.fetchLatestOffsets([topic], (err, offsets) => {
+  if (err) {
+      console.log(`error fetching latest offsets ${err}`)
+      return
+  }
+  var latest = 1
+  Object.keys(offsets[topic]).forEach( o => {
+      latest = offsets[topic][o] > latest ? offsets[topic][o] : latest
+  })
+  consumer.setOffset(topic, 0, latest-1)
+})
 
 // Refresh metadata required for the first message to go through
 // https://github.com/SOHU-Co/kafka-node/pull/378
@@ -112,13 +123,13 @@ async function postToSciCat(token, message, config, sampleId) {
     if (scimetObject.nexus_structure.hasOwnProperty('children')) {
       let entry = scimetObject.nexus_structure.children[0];
       if (entry.hasOwnProperty('children')) {
-        const titleObject = entry.children[0];
+        const titleObject = entry.children.find(child => child.name === "title");
         if (titleObject.hasOwnProperty('values')) {
           title = titleObject.values;
         }
-        const instrumentObject = entry.children[1];
+        const instrumentObject = entry.children[2];
         if (instrumentObject.hasOwnProperty('children')) {
-          ;
+          let chop1=instrumentObject.children[0];
         }
       }
       //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];

@@ -113,6 +113,7 @@ async function postToSciCat(token, message, config, sampleId) {
   let url = "http://" + config.scicatIP + "/api/v3/RawDatasets/" + "?access_token=" + token.id;
   console.log(url);
   var scimet = message.value.replace(/\n/g, '');
+  console.log("offset",message.offset)
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var defaultDataset = readjson("dataset.json");
   let title = defaultDataset.datasetName;

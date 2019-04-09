@@ -110,7 +110,7 @@ async function postToSciCat(token, message, config, sampleId) {
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
     if (scimetObject.nexus_structure.hasOwnProperty('children')) {
-      let entry = scimetObject.nexus_structure[0];
+      let entry = scimetObject.nexus_structure.children[0];
       if (entry.hasOwnProperty('children')) {
         const titleObject = entry.children[0];
         if (titleObject.hasOwnProperty('values')) {

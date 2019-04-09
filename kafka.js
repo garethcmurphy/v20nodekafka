@@ -5,6 +5,7 @@ var kafka = require("kafka-node");
 var fs = require("fs");
 var rp = require("request-promise");
 var Consumer = kafka.Consumer;
+var ConsumerGroup = kafka.ConsumerGroup;
 var Offset = kafka.Offset;
 var Client = kafka.KafkaClient;
 var argv = require("optimist").argv;

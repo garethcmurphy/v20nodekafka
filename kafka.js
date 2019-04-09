@@ -121,13 +121,14 @@ async function postToSciCat(token, message, config, sampleId) {
   let title = defaultDataset.datasetName;
   let chopper_rotation_speed_1 = { "u": "Hz", "v": "14" };
   let chopper_rotation_speed_2 = { "u": "Hz", "v": "14" };
+  let dateNow = new Date(Date.now());
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
     if (scimetObject.nexus_structure.hasOwnProperty('children')) {
       let entry = scimetObject.nexus_structure.children[0];
       if (entry.hasOwnProperty('children')) {
         console.log(entry);
-        
+
         const titleObject = entry.children.find(child => child.name === "title");
         if ( titleObject !== undefined) {
           if (titleObject.hasOwnProperty('values')) {
@@ -135,6 +136,14 @@ async function postToSciCat(token, message, config, sampleId) {
             title = titleObject.values;
           }
         }
+        const startObject = entry.children.find(child => child.name === "start_time");
+        if ( startObject !== undefined) {
+          if (startObject.hasOwnProperty('values')) {
+            console.log(startObject);
+            dateNow = startObject.values;
+          }
+        }
+
         const instrumentObject = entry.children[2];
         if (instrumentObject.hasOwnProperty('children')) {
           let chop1=instrumentObject.children[0];
@@ -143,11 +152,7 @@ async function postToSciCat(token, message, config, sampleId) {
       //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
     }
   }
-  let dateNow = new Date(Date.now());
   //console.log('message timestamp', message.timestamp)
-  if (scimetObject.hasOwnProperty('start_time')) {
-    dateNow = new Date(scimetObject['start_time']);
-  }
   let fileName = "default.nxs"
   if (scimetObject.hasOwnProperty('file_attributes')) {
     fileName = scimetObject.file_attributes.file_name;

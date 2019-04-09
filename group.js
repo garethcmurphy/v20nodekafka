@@ -8,7 +8,7 @@ var consumerOptions = {
     groupId: 'ExampleTestGroup',
     sessionTimeout: 15000,
     protocol: ['roundrobin'],
-    fromOffset: 'earliest' // equivalent of auto.offset.reset valid values are 'none', 'latest', 'earliest'
+    fromOffset: 'latest' // equivalent of auto.offset.reset valid values are 'none', 'latest', 'earliest'
 };
 
 var topics = ['V20_writerCommand'];

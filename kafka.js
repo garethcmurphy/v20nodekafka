@@ -119,9 +119,10 @@ async function postToSciCat(token, message, config, sampleId) {
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var defaultDataset = readjson("dataset.json");
   let title = defaultDataset.datasetName;
+  let sample_description = "V20 sample";
   let chopper_rotation_speed_1 = { "u": "Hz", "v": "14" };
   let chopper_rotation_speed_2 = { "u": "Hz", "v": "14" };
-  let dateNow =new Date(2018, 11, 24, 10, 33, 30, 0); 
+  let dateNow =new Date(2018, 10, 1, 10, 33, 30, 0); 
   var scimetObject = JSON.parse(jsonFormattedString);
   if (scimetObject.hasOwnProperty('nexus_structure')) {
     if (scimetObject.nexus_structure.hasOwnProperty('children')) {
@@ -144,9 +145,24 @@ async function postToSciCat(token, message, config, sampleId) {
           }
         }
 
+        const sampleObject = entry.children.find(child => child.name === "sample");
+        if ( sampleObject !== undefined) {
+          if (sampleObject.hasOwnProperty('values')) {
+            console.log(sampleObject);
+            if (sampleObject.hasOwnProperty('children')){ 
+              const sample_child = sampleObject.children.find(child => child.name === "description");
+              sample_description = sample_child.values;
+            }
+          }
+        }
+
         const instrumentObject = entry.children[2];
         if (instrumentObject.hasOwnProperty('children')) {
-          let chop1=instrumentObject.children[0];
+          let chop1 = instrumentObject.children[0];
+          if (chop1.hasOwnProperty('children')) {
+            const chop1_child = chop1.children.find(child => child.name == "speed");
+            chopper_rotation_speed_1.v = chop1_child.values;
+          }
         }
       }
       //delete scimetObject['nexus_structure']['children'][0]['children'][4]['children'][8];
@@ -161,7 +177,8 @@ async function postToSciCat(token, message, config, sampleId) {
     start_time: dateNow,
     file_name: fileName,
     chopper_rotation_speed_1: chopper_rotation_speed_1,
-    chopper_rotation_speed_2: chopper_rotation_speed_2
+    chopper_rotation_speed_2: chopper_rotation_speed_2,
+    sample_description: sample_description
   };
   //dateNow = message.timestamp;
   let dataset = {

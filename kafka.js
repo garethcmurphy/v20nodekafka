@@ -28,6 +28,10 @@ var options = {
   apiVersionRequest: true,
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 16 * 1024 * 1024,
+  groupId: 'ExampleTestGroup',
+  id: 'consumer1',
+  sessionTimeout: 15000,
+  protocol: ['roundrobin'],
   encoding: 'utf8'
 };
 

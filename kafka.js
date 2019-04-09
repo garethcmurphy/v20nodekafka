@@ -129,6 +129,7 @@ async function postToSciCat(token, message, config, sampleId) {
         const titleObject = entry.children.find(child => child.name === "title");
         if ( titleObject !== undefined) {
           if (titleObject.hasOwnProperty('values')) {
+            console.log(titleObject);
             title = titleObject.values;
           }
         }

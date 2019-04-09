@@ -31,7 +31,7 @@ var options = {
   encoding: 'utf8'
 };
 
-var consumer = new ConsumerGroup(option, topics);
+var consumer = new ConsumerGroup(options, topics);
 
 // Refresh metadata required for the first message to go through
 // https://github.com/SOHU-Co/kafka-node/pull/378

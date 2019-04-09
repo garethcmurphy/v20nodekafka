@@ -40,7 +40,8 @@ offset.fetchLatestOffsets([topic], (err, offsets) => {
   }
   var latest = 1
   Object.keys(offsets[topic]).forEach( o => {
-      latest = offsets[topic][o] > latest ? offsets[topic][o] : latest
+    latest = offsets[topic][o] > latest ? offsets[topic][o] : latest;
+    console.log("latest offset", latest);
   })
   consumer.setOffset(topic, 0, latest-1)
 })

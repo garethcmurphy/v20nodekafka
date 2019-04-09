@@ -5,7 +5,6 @@ var kafka = require("kafka-node");
 var fs = require("fs");
 var rp = require("request-promise");
 var Consumer = kafka.Consumer;
-var ConsumerGroup = kafka.ConsumerGroup;
 var Offset = kafka.Offset;
 var Client = kafka.KafkaClient;
 var argv = require("optimist").argv;
@@ -24,18 +23,28 @@ var topic = argv.topic || dmsctopic;
 var client = new Client({ kafkaHost: dmscip + ":9093" });
 var topics = [{ topic: topic, partition: 0 }];
 var options = {
-  kafkaHost: dmscip+":9093",
+  //autoCommit: false,
   apiVersionRequest: true,
   fetchMaxWaitMs: 1000,
   fetchMaxBytes: 16 * 1024 * 1024,
-  groupId: 'ExampleTestGroup',
-  id: 'consumer1',
-  sessionTimeout: 15000,
-  protocol: ['roundrobin'],
+  fromOffset: true,
   encoding: 'utf8'
 };
 
-var consumer = new ConsumerGroup(options, topics);
+var consumer = new Consumer(client, topics, options);
+var offset = new Offset(client);
+offset.fetchLatestOffsets([topic], (err, offsets) => {
+  if (err) {
+      console.log(`error fetching latest offsets ${err}`)
+      return
+  }
+  var latest = 1
+  Object.keys(offsets[topic]).forEach( o => {
+    latest = offsets[topic][o] > latest ? offsets[topic][o] : latest;
+    console.log("latest offset", latest);
+  })
+  consumer.setOffset(topic, 0, latest-1)
+})
 
 // Refresh metadata required for the first message to go through
 // https://github.com/SOHU-Co/kafka-node/pull/378

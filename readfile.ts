@@ -17,6 +17,10 @@ export class ReadFile {
 		let dateNow = new Date(2018, 1, 1);
 		let sample_description = "";
 		let chopper_rotation_speed_1 = { u: "Hz", v: "14" };
+		let fileName = "default.nxs"
+		if (scimetObject.hasOwnProperty('file_attributes')) {
+		  fileName = scimetObject.file_attributes.file_name;
+		}
 		if (scimetObject.hasOwnProperty('nexus_structure')) {
 			if (scimetObject.nexus_structure.hasOwnProperty('children')) {
 				let entry = scimetObject.nexus_structure.children.find(child => child.name === "entry");
@@ -65,6 +69,7 @@ export class ReadFile {
 		}
 
 		newObject["start_time"] = dateNow;
+		newObject["file_name"] = fileName;
 		newObject["chopper_rotation_speed_1"] = chopper_rotation_speed_1;
 		newObject["chopper_rotation_speed_2"] = chopper_rotation_speed_1;
 		newObject["sample_description"] = sample_description;

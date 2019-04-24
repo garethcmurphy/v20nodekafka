@@ -92,10 +92,10 @@ export class ReadFile {
 		newObject["file_name"] = fileName;
 		newObject["title"] = title;
 		newObject["size"] = size;
-		newObject["chopper_rotation_speed_1"] = chopper_rotation_speed_1;
-		newObject["chopper_rotation_speed_2"] = chopper_rotation_speed_2;
-		newObject["chopper_rotation_speed_3"] = chopper_rotation_speed_3;
-		newObject["chopper_rotation_speed_4"] = chopper_rotation_speed_4;
+		newObject["chopper_speed_1"] = chopper_rotation_speed_1;
+		newObject["chopper_speed_2"] = chopper_rotation_speed_2;
+		newObject["chopper_speed_3"] = chopper_rotation_speed_3;
+		newObject["chopper_speed_4"] = chopper_rotation_speed_4;
 		newObject["chopper_phase_1"] = chopper_phase_1;
 		newObject["chopper_phase_2"] = chopper_phase_2;
 		newObject["chopper_phase_3"] = chopper_phase_3;

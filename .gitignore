@@ -84,3 +84,4 @@ typings/
 .dynamodb/
 user.json
 config.json
+configRemote.json

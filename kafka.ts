@@ -250,7 +250,6 @@ async function sampleToSciCat(token, data, config, sampleId) {
     return Promise.reject(error);
   }
 }
-    )
 
 async function origToSciCat(token, dataset, message, config, sampleId) {
   console.log("orig to scicat");

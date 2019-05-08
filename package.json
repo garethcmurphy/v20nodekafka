@@ -1,15 +1,16 @@
 {
   "name": "v20nodekafka",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "v20 access kafka and post to scicat",
+  "repository": "https://github.com/garethcmurphy/v20nodekafka",
+  "main": "kafka.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx ts-node kafka.ts"
   },
   "keywords": [],
   "author": "",
-  "license": "GPL-v3.0",
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "@types/node": "^11.13.2",
     "kafka-node": "^4.0.2",

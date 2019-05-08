@@ -213,7 +213,7 @@ async function sampleToSciCat(token, data, config, sampleId) {
   var defaultDataset = readjson("sample.json");
   let sample_description = defaultDataset.description;
   if (typeof data !== undefined) {
-    if (data.hasOwnProperty("scientificMetadata"){
+    if (data.hasOwnProperty("scientificMetadata")){
     if (data.scientificMetadata.hasOwnProperty("nexus_structure")) {
       sample_description = data.scientificMetadata["nexus_structure"]["children"][0]["children"][5]["children"][0]["values"];
     }
@@ -250,7 +250,7 @@ async function sampleToSciCat(token, data, config, sampleId) {
     return Promise.reject(error);
   }
 }
-
+    )
 
 async function origToSciCat(token, dataset, message, config, sampleId) {
   console.log("orig to scicat");

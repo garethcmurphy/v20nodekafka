@@ -1,6 +1,5 @@
 "use strict";
 
-import { stringify } from "querystring";
 
 var fs = require('fs');
 export class ReadFile {

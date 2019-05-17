@@ -5,8 +5,8 @@
   "repository": "https://github.com/garethcmurphy/v20nodekafka",
   "main": "kafka.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx ts-node kafka.ts"
+    "test": "npx mocha -r ts-node/register test/**/*.spec.ts",
+    "start": "npx ts-node src/kafka.ts"
   },
   "keywords": [],
   "author": "",
@@ -21,5 +21,11 @@
     "scp2": "^0.5.0",
     "shortid": "^2.2.14",
     "typescript": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "ts-node": "^8.1.0"
   }
 }

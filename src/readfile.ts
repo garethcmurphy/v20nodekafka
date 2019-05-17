@@ -3,11 +3,11 @@
 
 var fs = require('fs');
 export class ReadFile {
+		filename = "out.json";
 
 	read() {
-		var filename = "out.json";
 		const fs = require("fs");
-		var scimetObject = JSON.parse(fs.readFileSync(filename, "utf8"));
+		var scimetObject = JSON.parse(fs.readFileSync(this.filename, "utf8"));
 		let newObject = this.parse(scimetObject);
 		console.log(JSON.stringify(newObject, null, 2));
 	}

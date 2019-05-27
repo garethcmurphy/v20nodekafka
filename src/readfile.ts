@@ -124,14 +124,14 @@ export class ReadFile {
     newObject["file_name"] = fileName;
     newObject["title"] = title;
     newObject["size"] = size;
-    newObject["chopper_speed_1"] = chopper_rotation_speed_1;
-    newObject["chopper_speed_2"] = chopper_rotation_speed_2;
-    newObject["chopper_speed_3"] = chopper_rotation_speed_3;
-    newObject["chopper_speed_4"] = chopper_rotation_speed_4;
-    newObject["chopper_phase_1"] = chopper_phase_1;
-    newObject["chopper_phase_2"] = chopper_phase_2;
-    newObject["chopper_phase_3"] = chopper_phase_3;
-    newObject["chopper_phase_4"] = chopper_phase_4;
+    newObject["chopper_1_speed"] = chopper_rotation_speed_1;
+    newObject["chopper_1_phase"] = chopper_phase_1;
+    newObject["chopper_2_phase"] = chopper_phase_2;
+    newObject["chopper_2_speed"] = chopper_rotation_speed_2;
+    newObject["chopper_3_phase"] = chopper_phase_3;
+    newObject["chopper_3_speed"] = chopper_rotation_speed_3;
+    newObject["chopper_4_phase"] = chopper_phase_4;
+    newObject["chopper_4_speed"] = chopper_rotation_speed_4;
     newObject["sample_description"] = sample_description;
     newObject["sample_temperature"] = sample_temperature;
 

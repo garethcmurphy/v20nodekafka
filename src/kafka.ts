@@ -74,17 +74,19 @@ consumer.on("message", function(message) {
   var scimet = message.value.replace(/\n/g, "");
   console.log("offset", message.offset);
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
-  //console.log("message", jsonFormattedString);
-  var scimetObject = JSON.parse(jsonFormattedString);
-  if (scimetObject.hasOwnProperty("cmd")) {
-    const cmd = scimetObject["cmd"];
-    console.log("cmd", cmd);
-    if (cmd === "FileWriter_new") {
-      sendtoscicat(message, config);
-    } else if (cmd === "FileWriter_stop") {
-      console.log("add copy logic");
-    } else {
-      console.log(cmd);
+  console.log("message", jsonFormattedString.slice(0,50));
+  if (jsonFormattedString.endsWith("}")) {
+    var scimetObject = JSON.parse(jsonFormattedString);
+    if (scimetObject.hasOwnProperty("cmd")) {
+      const cmd = scimetObject["cmd"];
+      console.log("cmd", cmd);
+      if (cmd === "FileWriter_new") {
+        sendtoscicat(message, config);
+      } else if (cmd === "FileWriter_stop") {
+        console.log("add copy logic");
+      } else {
+        console.log(cmd);
+      }
     }
   }
 

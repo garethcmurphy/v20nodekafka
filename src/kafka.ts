@@ -68,7 +68,26 @@ async function sendtoscicat(message, config) {
 }
 
 consumer.on("message", function(message) {
-  sendtoscicat(message, config);
+  // check is message is stop or start
+  // unpack message
+  // if stop then find file and scp/copy if start post to scicat
+  var scimet = message.value.replace(/\n/g, "");
+  console.log("offset", message.offset);
+  var jsonFormattedString = scimet.replace(/\\\//g, "/");
+  //console.log("message", jsonFormattedString);
+  var scimetObject = JSON.parse(jsonFormattedString);
+  if (scimetObject.hasOwnProperty("cmd")) {
+    const cmd = scimetObject["cmd"];
+    console.log("cmd", cmd);
+    if (cmd === "FileWriter_new") {
+      sendtoscicat(message, config);
+    } else if (cmd === "FileWriter_stop") {
+      console.log("add copy logic");
+    } else {
+      console.log(cmd);
+    }
+  }
+
   //console.log(message);
 });
 
@@ -133,7 +152,7 @@ async function postToSciCat(token, message, config, sampleId) {
   }
   console.log(job_id);
   const prefix = "20.500.12269/";
-  const whereobj = { pid: prefix+job_id };
+  const whereobj = { pid: prefix + job_id };
   const wherestr = encodeURIComponent(JSON.stringify(whereobj));
   console.log(wherestr);
   let url =
@@ -145,7 +164,7 @@ async function postToSciCat(token, message, config, sampleId) {
     token.id;
   console.log(url);
   let dataset = {
-    pid: prefix+scimetObject.job_id,
+    pid: prefix + scimetObject.job_id,
     principalInvestigator: defaultDataset.principalInvestigator,
     endTime: dateNow,
     creationLocation: defaultDataset.creationLocation,
@@ -296,7 +315,7 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
     dataFileList: [
       {
         path: fileName,
-        size: dataset.scientificMetadata.size,
+        size: 0,
         time: dataset.endTime,
         chk: "34782",
         uid: "101",

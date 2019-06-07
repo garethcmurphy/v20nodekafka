@@ -1,6 +1,7 @@
 "use strict";
 
 import { GetProposal } from "./GetProposal";
+import { exists } from "fs";
 
 const { ReadFile } = require("./readfile");
 
@@ -111,17 +112,8 @@ async function loginToScicat(config) {
   }
 }
 
-
-
 async function postToSciCat(token, message, config, sampleId) {
   console.log("posting to scicat");
-  let url =
-    "http://" +
-    config.scicatIP +
-    "/api/v3/RawDatasets/" +
-    "?access_token=" +
-    token.id;
-  console.log(url);
   var scimet = message.value.replace(/\n/g, "");
   console.log("offset", message.offset);
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
@@ -134,9 +126,26 @@ async function postToSciCat(token, message, config, sampleId) {
   let size = newObject2.size;
   console.log(newObject2);
   const prop = new GetProposal();
-  const proposalId = prop.get(dateNow)
+  const proposalId = prop.get(dateNow);
+  let job_id = "x";
+  if (scimetObject.hasOwnProperty("job_id")) {
+    job_id = scimetObject["job_id"];
+  }
+  console.log(job_id);
+  const prefix = "20.500.12269/";
+  const whereobj = { pid: prefix+job_id };
+  const wherestr = encodeURIComponent(JSON.stringify(whereobj));
+  console.log(wherestr);
+  let url =
+    "http://" +
+    config.scicatIP +
+    "/api/v3/Datasets/upsertWithWhere?where=" +
+    wherestr +
+    "&access_token=" +
+    token.id;
+  console.log(url);
   let dataset = {
-    pid: scimetObject.job_id,
+    pid: prefix+scimetObject.job_id,
     principalInvestigator: defaultDataset.principalInvestigator,
     endTime: dateNow,
     creationLocation: defaultDataset.creationLocation,
@@ -169,7 +178,7 @@ async function postToSciCat(token, message, config, sampleId) {
     proposalId: proposalId,
     datasetlifecycle: {
       archivable: true,
-      retrievable: true,
+      retrievable: false,
       publishable: true,
       dateOfDiskPurging: dateNow,
       archiveRetentionTime: dateNow,
@@ -224,7 +233,7 @@ async function sampleToSciCat(token, data, config, sampleId) {
   let dateNow = new Date(Date.now());
   var defaultDataset = readjson("sample.json");
   let sample_description = defaultDataset.description;
-  if (typeof data !== undefined) {
+  if (data !== undefined) {
     if (data.hasOwnProperty("scientificMetadata")) {
       if (data.scientificMetadata.hasOwnProperty("nexus_structure")) {
         sample_description =
@@ -275,7 +284,7 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
   console.log(url);
   var defaultDataset = readjson("orig.json");
   let fileName = "default.nxs";
-  if (typeof dataset !== undefined) {
+  if (dataset !== undefined) {
     if (dataset.hasOwnProperty("scientificMetadata")) {
       if (dataset.scientificMetadata.hasOwnProperty("file_name")) {
         fileName = dataset.scientificMetadata.file_name;

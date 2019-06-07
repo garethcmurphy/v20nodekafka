@@ -1,4 +1,7 @@
 "use strict";
+
+import { GetProposal } from "./GetProposal";
+
 const { ReadFile } = require("./readfile");
 
 const shortid = require("shortid");
@@ -108,6 +111,8 @@ async function loginToScicat(config) {
   }
 }
 
+
+
 async function postToSciCat(token, message, config, sampleId) {
   console.log("posting to scicat");
   let url =
@@ -128,7 +133,10 @@ async function postToSciCat(token, message, config, sampleId) {
   let title = newObject2.title;
   let size = newObject2.size;
   console.log(newObject2);
+  const prop = new GetProposal();
+  const proposalId = prop.get(dateNow)
   let dataset = {
+    pid: scimetObject.job_id,
     principalInvestigator: defaultDataset.principalInvestigator,
     endTime: dateNow,
     creationLocation: defaultDataset.creationLocation,
@@ -142,7 +150,7 @@ async function postToSciCat(token, message, config, sampleId) {
     size: size,
     packedSize: size,
     creationTime: dateNow,
-    type: "string",
+    type: "raw",
     validationStatus: "string",
     keywords: defaultDataset.keywords,
     description: defaultDataset.description,
@@ -158,7 +166,7 @@ async function postToSciCat(token, message, config, sampleId) {
     createdAt: dateNow,
     updatedAt: dateNow,
     sampleId: sampleId,
-    proposalId: defaultDataset.proposalId,
+    proposalId: proposalId,
     datasetlifecycle: {
       archivable: true,
       retrievable: true,

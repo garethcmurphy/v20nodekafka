@@ -17,7 +17,7 @@ export class GetProposal {
       proposalId: "67JH32",
       MeasurementPeriodList: [
         {
-          start: "2018-05-29T00:00:01.595Z",
+          start: "2018-01-01T00:00:01.595Z",
           end: "2019-05-28T23:59:59.595Z"
         }
       ]

@@ -75,7 +75,7 @@ consumer.on("message", function(message) {
   console.log("offset", message.offset);
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   console.log("message", jsonFormattedString.slice(0,50));
-  if (jsonFormattedString.endsWith("}")) {
+  if (jsonFormattedString.endsWith("}") && jsonFormattedString.startsWith("{") ) {
     var scimetObject = JSON.parse(jsonFormattedString);
     if (scimetObject.hasOwnProperty("cmd")) {
       const cmd = scimetObject["cmd"];

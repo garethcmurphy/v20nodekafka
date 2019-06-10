@@ -1,4 +1,8 @@
 "use strict";
+
+import { GetProposal } from "./GetProposal";
+import { exists } from "fs";
+
 const { ReadFile } = require("./readfile");
 
 const shortid = require("shortid");
@@ -19,7 +23,7 @@ var v20ip = "172.24.0.207";
 var dmscip = config.kafkaIP;
 var v20topic = "the_status_topic";
 var url = config.url;
-var dmsctopic = config.topic
+var dmsctopic = config.topic;
 var topic = argv.topic || dmsctopic;
 var client = new Client({ kafkaHost: dmscip + ":9093" });
 var topics = [{ topic: topic, partition: 0 }];
@@ -36,16 +40,16 @@ var consumer = new Consumer(client, topics, options);
 var offset = new Offset(client);
 offset.fetchLatestOffsets([topic], (err, offsets) => {
   if (err) {
-    console.log(`error fetching latest offsets ${err}`)
-    return
+    console.log(`error fetching latest offsets ${err}`);
+    return;
   }
-  var latest = 1
+  var latest = 1;
   Object.keys(offsets[topic]).forEach(o => {
     latest = offsets[topic][o] > latest ? offsets[topic][o] : latest;
     console.log("latest offset", latest);
-  })
-  consumer.setOffset(topic, 0, latest - 1)
-})
+  });
+  consumer.setOffset(topic, 0, latest - 1);
+});
 
 // Refresh metadata required for the first message to go through
 // https://github.com/SOHU-Co/kafka-node/pull/378
@@ -56,7 +60,6 @@ client.refreshMetadata([topic], err => {
 });
 
 async function sendtoscicat(message, config) {
-
   var x = await loginToScicat(config);
   let sampleId = shortid.generate();
   var dataset = await postToSciCat(x, message, config, sampleId);
@@ -64,21 +67,42 @@ async function sendtoscicat(message, config) {
   var q = await origToSciCat(x, dataset, message, config, sampleId);
 }
 
-consumer.on("message", function (message) {
-  sendtoscicat(message, config);
+consumer.on("message", function(message) {
+  // check is message is stop or start
+  // unpack message
+  // if stop then find file and scp/copy if start post to scicat
+  var scimet = message.value.replace(/\n/g, "");
+  console.log("offset", message.offset);
+  var jsonFormattedString = scimet.replace(/\\\//g, "/");
+  console.log("message", jsonFormattedString.slice(0,50));
+  if (jsonFormattedString.endsWith("}") && jsonFormattedString.startsWith("{") ) {
+    var scimetObject = JSON.parse(jsonFormattedString);
+    if (scimetObject.hasOwnProperty("cmd")) {
+      const cmd = scimetObject["cmd"];
+      console.log("cmd", cmd);
+      if (cmd === "FileWriter_new") {
+        sendtoscicat(message, config);
+      } else if (cmd === "FileWriter_stop") {
+        console.log("add copy logic");
+      } else {
+        console.log(cmd);
+      }
+    }
+  }
+
   //console.log(message);
 });
 
-consumer.on("error", function (err) {
+consumer.on("error", function(err) {
   console.log("error", err);
 });
 
 /*
  * If consumer get `offsetOutOfRange` event, fetch data from the smallest(oldest) offset
  */
-consumer.on("offsetOutOfRange", function (topic) {
+consumer.on("offsetOutOfRange", function(topic) {
   topic.maxNum = 2;
-  offset.fetch([topic], function (err, offsets) {
+  offset.fetch([topic], function(err, offsets) {
     if (err) {
       return console.error(err);
     }
@@ -86,7 +110,6 @@ consumer.on("offsetOutOfRange", function (topic) {
     consumer.setOffset(topic.topic, topic.partition, min);
   });
 });
-
 
 async function loginToScicat(config) {
   console.log("login to scicat");
@@ -110,13 +133,10 @@ async function loginToScicat(config) {
   }
 }
 
-
 async function postToSciCat(token, message, config, sampleId) {
   console.log("posting to scicat");
-  let url = "http://" + config.scicatIP + "/api/v3/RawDatasets/" + "?access_token=" + token.id;
-  console.log(url);
   var scimet = message.value.replace(/\n/g, "");
-  console.log("offset", message.offset)
+  console.log("offset", message.offset);
   var jsonFormattedString = scimet.replace(/\\\//g, "/");
   var defaultDataset = readjson("dataset.json");
   var scimetObject = JSON.parse(jsonFormattedString);
@@ -126,64 +146,83 @@ async function postToSciCat(token, message, config, sampleId) {
   let title = newObject2.title;
   let size = newObject2.size;
   console.log(newObject2);
+  const prop = new GetProposal();
+  const proposalId = prop.get(dateNow);
+  let job_id = "x";
+  if (scimetObject.hasOwnProperty("job_id")) {
+    job_id = scimetObject["job_id"];
+  }
+  console.log(job_id);
+  const prefix = "20.500.12269/";
+  const whereobj = { pid: prefix + job_id };
+  const wherestr = encodeURIComponent(JSON.stringify(whereobj));
+  console.log(wherestr);
+  let url =
+    "http://" +
+    config.scicatIP +
+    "/api/v3/Datasets/upsertWithWhere?where=" +
+    wherestr +
+    "&access_token=" +
+    token.id;
+  console.log(url);
   let dataset = {
-    "principalInvestigator": defaultDataset.principalInvestigator,
-    "endTime": dateNow,
-    "creationLocation": defaultDataset.creationLocation,
-    "dataFormat": defaultDataset.dataFormat,
-    "scientificMetadata": newObject2,
-    "owner": defaultDataset.owner,
-    "ownerEmail": defaultDataset.ownerEmail,
-    "orcidOfOwner": defaultDataset.orcidOfOwner,
-    "contactEmail": defaultDataset.contactEmail,
-    "sourceFolder": defaultDataset.sourceFolder,
-    "size": size,
-    "packedSize": size,
-    "creationTime": dateNow,
-    "type": "string",
-    "validationStatus": "string",
-    "keywords": defaultDataset.keywords,
-    "description": defaultDataset.description,
-    "datasetName": title,
-    "classification": defaultDataset.classification,
-    "license": defaultDataset.license,
-    "version": defaultDataset.version,
-    "isPublished": defaultDataset.isPublished,
-    "ownerGroup": defaultDataset.ownerGroup,
-    "accessGroups": defaultDataset.accessGroups,
-    "createdBy": "string",
-    "updatedBy": "string",
-    "createdAt": dateNow,
-    "updatedAt": dateNow,
-    "sampleId": sampleId,
-    "proposalId": defaultDataset.proposalId,
-    "datasetlifecycle": {
-      "archivable": true,
-      "retrievable": true,
-      "publishable": true,
-      "dateOfDiskPurging": dateNow,
-      "archiveRetentionTime": dateNow,
-      "dateOfPublishing": dateNow,
-      "isOnCentralDisk": true,
-      "archiveStatusMessage": "string",
-      "retrieveStatusMessage": "string",
-      "archiveReturnMessage": {},
-      "retrieveReturnMessage": {},
-      "exportedTo": "string",
-      "retrieveIntegrityCheck": true
+    pid: prefix + scimetObject.job_id,
+    principalInvestigator: defaultDataset.principalInvestigator,
+    endTime: dateNow,
+    creationLocation: defaultDataset.creationLocation,
+    dataFormat: defaultDataset.dataFormat,
+    scientificMetadata: newObject2,
+    owner: defaultDataset.owner,
+    ownerEmail: defaultDataset.ownerEmail,
+    orcidOfOwner: defaultDataset.orcidOfOwner,
+    contactEmail: defaultDataset.contactEmail,
+    sourceFolder: defaultDataset.sourceFolder,
+    size: size,
+    packedSize: size,
+    creationTime: dateNow,
+    type: "raw",
+    validationStatus: "string",
+    keywords: defaultDataset.keywords,
+    description: defaultDataset.description,
+    datasetName: title,
+    classification: defaultDataset.classification,
+    license: defaultDataset.license,
+    version: defaultDataset.version,
+    isPublished: defaultDataset.isPublished,
+    ownerGroup: defaultDataset.ownerGroup,
+    accessGroups: defaultDataset.accessGroups,
+    createdBy: "string",
+    updatedBy: "string",
+    createdAt: dateNow,
+    updatedAt: dateNow,
+    sampleId: sampleId,
+    proposalId: proposalId,
+    datasetlifecycle: {
+      archivable: true,
+      retrievable: false,
+      publishable: true,
+      dateOfDiskPurging: dateNow,
+      archiveRetentionTime: dateNow,
+      dateOfPublishing: dateNow,
+      isOnCentralDisk: true,
+      archiveStatusMessage: "string",
+      retrieveStatusMessage: "string",
+      archiveReturnMessage: {},
+      retrieveReturnMessage: {},
+      exportedTo: "string",
+      retrieveIntegrityCheck: true
     },
-    "history": [
+    history: [
       {
-        "id": "string"
+        id: "string"
       }
     ]
-  }
+  };
   if (scimetObject.hasOwnProperty("cmd")) {
     if (scimetObject["cmd"] === "FileWriter_stop") {
       return;
     }
   }
-
 
   console.log(dataset.scientificMetadata);
   let options1 = {
@@ -203,36 +242,40 @@ async function postToSciCat(token, message, config, sampleId) {
   }
 }
 
-
-
 async function sampleToSciCat(token, data, config, sampleId) {
   console.log("sample to scicat");
-  let url = "http://" + config.scicatIP + "/api/v3/Samples/" + "?access_token=" + token.id;
+  let url =
+    "http://" +
+    config.scicatIP +
+    "/api/v3/Samples/" +
+    "?access_token=" +
+    token.id;
   console.log(url);
   let dateNow = new Date(Date.now());
   var defaultDataset = readjson("sample.json");
   let sample_description = defaultDataset.description;
-  if (typeof data !== undefined) {
-    if (data.hasOwnProperty("scientificMetadata")){
-    if (data.scientificMetadata.hasOwnProperty("nexus_structure")) {
-      sample_description = data.scientificMetadata["nexus_structure"]["children"][0]["children"][5]["children"][0]["values"];
+  if (data !== undefined) {
+    if (data.hasOwnProperty("scientificMetadata")) {
+      if (data.scientificMetadata.hasOwnProperty("nexus_structure")) {
+        sample_description =
+          data.scientificMetadata["nexus_structure"]["children"][0][
+            "children"
+          ][5]["children"][0]["values"];
+      }
     }
   }
-  }
   let sample = {
-    "samplelId": sampleId,
-    "owner": defaultDataset.owner,
-    "description": sample_description,
-    "createdAt": dateNow,
-    "sampleCharacteristics": {
-      "description": sample_description
+    samplelId: sampleId,
+    owner: defaultDataset.owner,
+    description: sample_description,
+    createdAt: dateNow,
+    sampleCharacteristics: {
+      description: sample_description
     },
-    "attachments": [
-      "string"
-    ],
-    "ownerGroup": defaultDataset.ownerGroup,
-    "accessGroups": defaultDataset.accessGroups
-  }
+    attachments: ["string"],
+    ownerGroup: defaultDataset.ownerGroup,
+    accessGroups: defaultDataset.accessGroups
+  };
   console.log(sample);
   let options1 = {
     url: url,
@@ -253,11 +296,16 @@ async function sampleToSciCat(token, data, config, sampleId) {
 
 async function origToSciCat(token, dataset, message, config, sampleId) {
   console.log("orig to scicat");
-  let url = "http://" + config.scicatIP + "/api/v3/OrigDatablocks/" + "?access_token=" + token.id;
+  let url =
+    "http://" +
+    config.scicatIP +
+    "/api/v3/OrigDatablocks/" +
+    "?access_token=" +
+    token.id;
   console.log(url);
   var defaultDataset = readjson("orig.json");
   let fileName = "default.nxs";
-  if (typeof dataset !== undefined) {
+  if (dataset !== undefined) {
     if (dataset.hasOwnProperty("scientificMetadata")) {
       if (dataset.scientificMetadata.hasOwnProperty("file_name")) {
         fileName = dataset.scientificMetadata.file_name;
@@ -265,22 +313,22 @@ async function origToSciCat(token, dataset, message, config, sampleId) {
     }
   }
   let orig = {
-    "size": 0,
-    "dataFileList": [
+    size: 0,
+    dataFileList: [
       {
-        "path": fileName,
-        "size": dataset.scientificMetadata.size,
-        "time": dataset.endTime,
-        "chk": "34782",
-        "uid": "101",
-        "gid": "101",
-        "perm": "755"
+        path: fileName,
+        size: 0,
+        time: dataset.endTime,
+        chk: "34782",
+        uid: "101",
+        gid: "101",
+        perm: "755"
       }
     ],
-    "ownerGroup": defaultDataset.ownerGroup,
-    "accessGroups": defaultDataset.accessGroups,
-    "datasetId": dataset.pid
-  }
+    ownerGroup: defaultDataset.ownerGroup,
+    accessGroups: defaultDataset.accessGroups,
+    datasetId: dataset.pid
+  };
 
   // console.log(orig);
   let options1 = {

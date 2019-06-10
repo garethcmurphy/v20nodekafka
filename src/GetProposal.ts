@@ -1,7 +1,5 @@
 "use strict";
 
-import { AssertionError } from "assert";
-
 const fs = require("fs");
 const rp = require("request-promise");
 
@@ -44,6 +42,7 @@ export class GetProposal {
     } catch (error) {
       Promise.reject(error);
     }
+  ];
 
     let prop_url2=prop_url+"&access_token="+accessToken;
     console.log(prop_url2);

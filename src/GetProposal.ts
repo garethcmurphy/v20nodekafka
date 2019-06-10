@@ -14,19 +14,22 @@ export class GetProposal {
     return JSON.parse(fs.readFileSync(filename, "utf-8"));
   }
 
-  async get() {
+  async get(dateNow: string) {
     // login to catamel
     let accessToken = "fhs";
 
     let base_url = "http://localhost:3000/api/v3/";
     let login_url = base_url + "Users/login";
-    let instrument="V20";
-    let measureTime=encodeURIComponent("2019-05-28T00:01:00+0000");
+    let instrument = "V20";
+    let measureTime = encodeURIComponent(dateNow);
     let prop_url =
       base_url +
-      "Proposals/findByInstrumentAndDate?instrument="+instrument+"&measureTime="+measureTime;
-    
-    const rawdata=this.readjson("user.json");
+      "Proposals/findByInstrumentAndDate?instrument=" +
+      instrument +
+      "&measureTime=" +
+      measureTime;
+
+    const rawdata = this.readjson("user.json");
     const options1 = {
       url: login_url,
       method: "POST",
@@ -37,14 +40,12 @@ export class GetProposal {
     };
     try {
       const response = await rp(options1);
-        accessToken=response['id'];
+      accessToken = response["id"];
       Promise.resolve(response);
     } catch (error) {
       Promise.reject(error);
     }
-  ];
-
-    let prop_url2=prop_url+"&access_token="+accessToken;
+    let prop_url2 = prop_url + "&access_token=" + accessToken;
     console.log(prop_url2);
 
     let options = {
@@ -58,7 +59,7 @@ export class GetProposal {
     try {
       const response = await rp(options);
       Promise.resolve(response);
-      this.proposalId=response.findByInstrumentAndDate.proposalId;
+      this.proposalId = response.findByInstrumentAndDate.proposalId;
       console.log(this.proposalId);
     } catch (error) {
       console.log(prop_url2);
@@ -74,9 +75,8 @@ export class GetProposal {
 
 if (require.main === module) {
   let read = new GetProposal();
-  let proposalId = read.get().then(
-    result => {
-      console.log('successfully found',result);
-    }
-  );
+  let date = "2019-05-28T00:01:00+0000";
+  let proposalId = read.get(date).then(result => {
+    console.log("successfully found", result);
+  });
 }

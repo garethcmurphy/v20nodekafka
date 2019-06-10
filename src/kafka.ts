@@ -147,7 +147,9 @@ async function postToSciCat(token, message, config, sampleId) {
   let size = newObject2.size;
   console.log(newObject2);
   const prop = new GetProposal();
-  const proposalId = prop.get(dateNow);
+  const proposalId = "GH43YU";//
+  const newpropId= await prop.get(dateNow);
+  console.log(newpropId);
   let job_id = "x";
   if (scimetObject.hasOwnProperty("job_id")) {
     job_id = scimetObject["job_id"];

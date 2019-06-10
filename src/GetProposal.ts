@@ -76,7 +76,7 @@ export class GetProposal {
 if (require.main === module) {
   let read = new GetProposal();
   let date = "2019-05-28T00:01:00+0000";
-  let proposalId = read.get(date).then(result => {
+  read.get(date).then(result => {
     console.log("successfully found", result);
   });
 }

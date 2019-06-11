@@ -5,6 +5,7 @@ const rp = require("request-promise");
 
 export class GetProposal {
   proposalId = "GH43YU";
+  proposal: any;
 
   getDate() {
     return new Date(Date.now());
@@ -61,6 +62,7 @@ export class GetProposal {
       Promise.resolve(response);
       if (response.hasOwnProperty('findByInstrumentAndDate')) {
         const resp = response['findByInstrumentAndDate'];
+        this.proposal = resp;
         if (resp.hasOwnProperty('proposalId')) {
           this.proposalId = resp['proposalId'];
         }
@@ -75,7 +77,7 @@ export class GetProposal {
 
     // get proposal from catamel
 
-    return this.proposalId;
+    return this.proposal;
   }
 }
 

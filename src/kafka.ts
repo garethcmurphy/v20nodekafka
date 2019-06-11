@@ -1,7 +1,6 @@
 "use strict";
 
-import { exists } from "fs";
-import { postToSciCat } from "./postToSciCat";
+import {  SciCat } from "./postToSciCat";
 
 
 const shortid = require("shortid");
@@ -61,9 +60,10 @@ client.refreshMetadata([topic], err => {
 async function sendtoscicat(message, config) {
   var x = await loginToScicat(config);
   let sampleId = shortid.generate();
-  var dataset = await postToSciCat(x, message, config, sampleId);
+  let sci= new SciCat()
+  var dataset = await sci.postToSciCat(x, message, config, sampleId);
   var z = await sampleToSciCat(x, dataset, config, sampleId);
-  var q = await origToSciCat(x, dataset, message, config, sampleId);
+  var q = await sci.origToSciCat(x, dataset, message, config, sampleId);
 }
 
 consumer.on("message", function(message) {
@@ -119,112 +119,6 @@ async function loginToScicat(config) {
     url: url,
     method: "POST",
     body: rawdata,
-    json: true,
-    rejectUnauthorized: false
-  };
-  try {
-    //console.log(options1);
-    const response = await rp(options1);
-    //console.log(response);
-    return Promise.resolve(response);
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
-
-async function sampleToSciCat(token, data, config, sampleId) {
-  console.log("sample to scicat");
-  let url =
-    "http://" +
-    config.scicatIP +
-    "/api/v3/Samples/" +
-    "?access_token=" +
-    token.id;
-  console.log(url);
-  let dateNow = new Date(Date.now());
-  var defaultDataset = readjson("sample.json");
-  let sample_description = defaultDataset.description;
-  if (data !== undefined) {
-    if (data.hasOwnProperty("scientificMetadata")) {
-      if (data.scientificMetadata.hasOwnProperty("nexus_structure")) {
-        sample_description =
-          data.scientificMetadata["nexus_structure"]["children"][0][
-            "children"
-          ][5]["children"][0]["values"];
-      }
-    }
-  }
-  let sample = {
-    samplelId: sampleId,
-    owner: defaultDataset.owner,
-    description: sample_description,
-    createdAt: dateNow,
-    sampleCharacteristics: {
-      description: sample_description
-    },
-    attachments: ["string"],
-    ownerGroup: defaultDataset.ownerGroup,
-    accessGroups: defaultDataset.accessGroups
-  };
-  console.log(sample);
-  let options1 = {
-    url: url,
-    method: "POST",
-    body: sample,
-    json: true,
-    rejectUnauthorized: false
-  };
-  try {
-    //console.log(options1);
-    const response = await rp(options1);
-    //console.log(response);
-    return Promise.resolve(response);
-  } catch (error) {
-    return Promise.reject(error);
-  }
-}
-
-async function origToSciCat(token, dataset, message, config, sampleId) {
-  console.log("orig to scicat");
-  let url =
-    "http://" +
-    config.scicatIP +
-    "/api/v3/OrigDatablocks/" +
-    "?access_token=" +
-    token.id;
-  console.log(url);
-  var defaultDataset = readjson("orig.json");
-  let fileName = "default.nxs";
-  if (dataset !== undefined) {
-    if (dataset.hasOwnProperty("scientificMetadata")) {
-      if (dataset.scientificMetadata.hasOwnProperty("file_name")) {
-        fileName = dataset.scientificMetadata.file_name;
-      }
-    }
-  }
-  let orig = {
-    size: 0,
-    dataFileList: [
-      {
-        path: fileName,
-        size: 0,
-        time: dataset.endTime,
-        chk: "34782",
-        uid: "101",
-        gid: "101",
-        perm: "755"
-      }
-    ],
-    ownerGroup: defaultDataset.ownerGroup,
-    accessGroups: defaultDataset.accessGroups,
-    datasetId: dataset.pid
-  };
-
-  // console.log(orig);
-  let options1 = {
-    url: url,
-    method: "POST",
-    body: orig,
     json: true,
     rejectUnauthorized: false
   };

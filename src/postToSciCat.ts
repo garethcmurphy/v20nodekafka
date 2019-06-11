@@ -16,8 +16,11 @@ export async function postToSciCat(token, message, config, sampleId) {
   let size = newObject2.size;
   console.log(newObject2);
   const prop = new GetProposal();
-  const proposalId = "GH43YU"; //
   const newpropId = await prop.get(dateNow);
+  let proposalId = "DEFAULT";
+  if (newpropId.length === 6) {
+    proposalId = newpropId;
+  }
   console.log(newpropId);
   let job_id = "x";
   if (scimetObject.hasOwnProperty("job_id")) {
@@ -28,7 +31,8 @@ export async function postToSciCat(token, message, config, sampleId) {
   const whereobj = { pid: prefix + job_id };
   const wherestr = encodeURIComponent(JSON.stringify(whereobj));
   console.log(wherestr);
-  let url = "http://" +
+  let url =
+    "http://" +
     config.scicatIP +
     "/api/v3/Datasets/upsertWithWhere?where=" +
     wherestr +
@@ -106,8 +110,7 @@ export async function postToSciCat(token, message, config, sampleId) {
     const response = await rp(options1);
     //console.log(response);
     return Promise.resolve(response);
-  }
-  catch (error) {
+  } catch (error) {
     return Promise.reject(error);
   }
 }

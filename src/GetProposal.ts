@@ -59,7 +59,13 @@ export class GetProposal {
     try {
       const response = await rp(options);
       Promise.resolve(response);
-      this.proposalId = response.findByInstrumentAndDate.proposalId;
+      if (response.hasOwnProperty('findByInstrumentAndDate')) {
+        const resp = response['findByInstrumentAndDate'];
+        if (resp.hasOwnProperty('proposalId')) {
+          this.proposalId = resp['proposalId'];
+        }
+      }
+      //this.proposalId = response.findByInstrumentAndDate.proposalId;
       console.log(this.proposalId);
     } catch (error) {
       console.log(prop_url2);

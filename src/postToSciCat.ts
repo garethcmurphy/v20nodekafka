@@ -34,13 +34,21 @@ export async function postToSciCat(token, message, config, sampleId) {
   let url =
     "http://" +
     config.scicatIP +
-    "/api/v3/Datasets/upsertWithWhere?where=" +
-    wherestr +
+    "/api/v3/Datasets" +
+    "?access_token=" +
+    token.id;
+
+  let delete_url=
+    "http://" +
+    config.scicatIP +
+    "/api/v3/Datasets/" +
+    encodeURIComponent(prefix+job_id) +
     "&access_token=" +
     token.id;
+
   console.log(url);
   let dataset = {
-    pid: prefix + scimetObject.job_id,
+    pid: scimetObject.job_id,
     principalInvestigator: defaultDataset.principalInvestigator,
     endTime: dateNow,
     creationLocation: defaultDataset.creationLocation,
@@ -98,6 +106,23 @@ export async function postToSciCat(token, message, config, sampleId) {
     }
   }
   console.log(dataset.scientificMetadata);
+  let options_delete = {
+    url: delete_url,
+    method: "DELETE",
+    body: dataset,
+    json: true,
+    rejectUnauthorized: false
+  };
+
+  try {
+    //console.log(options1);
+    console.log('delete', job_id);
+    const response = await rp(options_delete);
+    //console.log(response);
+  } catch (error) {
+    console.log(error)
+  }
+
   let options1 = {
     url: url,
     method: "POST",

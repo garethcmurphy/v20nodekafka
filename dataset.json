@@ -36,7 +36,7 @@
   "proposalId": "v20",
   "datasetlifecycle": {
     "archivable": true,
-    "retrievable": true,
+    "retrievable": false,
     "publishable": true,
     "dateOfDiskPurging": "2019-03-20T12:39:37.646Z",
     "archiveRetentionTime": "2019-03-20T12:39:37.646Z",

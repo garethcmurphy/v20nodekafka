@@ -13,7 +13,7 @@ export class ReadFile {
 
   parse(scimetObject) {
     let newObject = {};
-    let title = "V20 april data";
+    let title = "V20 data";
     let dateNow = new Date(2018, 1, 1);
     let sample_description = "V20 sample";
     let chopper_rotation_speed_1 = { u: "Hz", v: "0" };

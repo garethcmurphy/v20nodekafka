@@ -43,7 +43,16 @@ export async function postToSciCat(token, message, config, sampleId) {
     config.scicatIP +
     "/api/v3/Datasets/" +
     encodeURIComponent(prefix+job_id) +
-    "&access_token=" +
+    "?access_token=" +
+    token.id;
+
+  let delete_orig=
+    "http://" +
+    config.scicatIP +
+    "/api/v3/Datasets/" +
+    encodeURIComponent(prefix+job_id) +
+    "/origdatablocks"
+    "?access_token=" +
     token.id;
 
   console.log(url);
@@ -58,7 +67,7 @@ export async function postToSciCat(token, message, config, sampleId) {
     ownerEmail: defaultDataset.ownerEmail,
     orcidOfOwner: defaultDataset.orcidOfOwner,
     contactEmail: defaultDataset.contactEmail,
-    sourceFolder: defaultDataset.sourceFolder,
+    sourceFolder: "/users/detector/experiments/V20/"+proposalId,
     size: size,
     packedSize: size,
     creationTime: dateNow,

@@ -20,7 +20,7 @@
   "description": "V20 data",
   "datasetName": "V20 data",
   "classification": "AV=medium,CO=low",
-  "license": "CC-BY",
+  "license": "CC-BY-4.0",
   "version": "string",
   "isPublished": true,
   "ownerGroup": "ess",

@@ -62,7 +62,7 @@ async function sendtoscicat(message, config) {
   let sampleId = shortid.generate();
   let sci= new SciCat()
   var dataset = await sci.postToSciCat(x, message, config, sampleId);
-  var z = await sampleToSciCat(x, dataset, config, sampleId);
+  var z = await sci.sampleToSciCat(x, dataset, config, sampleId);
   var q = await sci.origToSciCat(x, dataset, message, config, sampleId);
 }
 

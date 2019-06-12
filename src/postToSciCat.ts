@@ -22,7 +22,7 @@ export class SciCat {
     let size = parsedNexus.size;
     console.log(parsedNexus);
     const prop = new GetProposal();
-    const newprop = await prop.get(dateNow);
+    const newprop = await prop.get(config, dateNow);
     let proposalId = "DEFAULT";
     let owner = "default";
     let principalInvestigator = "default";
@@ -47,14 +47,12 @@ export class SciCat {
     const wherestr = encodeURIComponent(JSON.stringify(whereobj));
     console.log(wherestr);
     let url =
-      "http://" +
       config.scicatIP +
       "/api/v3/Datasets" +
       "?access_token=" +
       token.id;
 
     let delete_url =
-      "http://" +
       config.scicatIP +
       "/api/v3/Datasets/" +
       encodeURIComponent(prefix + job_id) +
@@ -62,7 +60,6 @@ export class SciCat {
       token.id;
 
     let delete_orig =
-      "http://" +
       config.scicatIP +
       "/api/v3/Datasets/" +
       encodeURIComponent(prefix + job_id) +
@@ -184,7 +181,6 @@ export class SciCat {
   async sampleToSciCat(token, data, config, sampleId) {
     console.log("sample to scicat");
     let url =
-      "http://" +
       config.scicatIP +
       "/api/v3/Samples/" +
       "?access_token=" +
@@ -237,7 +233,6 @@ export class SciCat {
   async origToSciCat(token, dataset, message, config, sampleId) {
     console.log("orig to scicat" + dataset.pid);
     let url =
-      "http://" +
       config.scicatIP +
       "/api/v3/OrigDatablocks/" +
       "?access_token=" +

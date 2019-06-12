@@ -15,11 +15,13 @@ export class GetProposal {
     return JSON.parse(fs.readFileSync(filename, "utf-8"));
   }
 
-  async get(dateNow: string) {
+  async get(config:any, dateNow: string) {
     // login to catamel
     let accessToken = "fhs";
 
-    let base_url = "http://localhost:3000/api/v3/";
+
+
+    let base_url = config.scicatIP +"/api/v3/";
     let login_url = base_url + "Users/login";
     let instrument = "V20";
     let measureTime = encodeURIComponent(dateNow);

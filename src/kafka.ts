@@ -23,7 +23,7 @@ var v20topic = "the_status_topic";
 var url = config.url;
 var dmsctopic = config.topic;
 var topic = argv.topic || dmsctopic;
-var client = new Client({ kafkaHost: dmscip + ":9093" });
+var client = new Client({ kafkaHost: dmscip  });
 var topics = [{ topic: topic, partition: 0 }];
 var options = {
   //autoCommit: false,

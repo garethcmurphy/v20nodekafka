@@ -86,7 +86,8 @@ export class GetProposal {
 if (require.main === module) {
   let read = new GetProposal();
   let date = "2019-05-28T00:01:00+0000";
-  read.get(date).then(result => {
+  var config = read.readjson("config.json")
+  read.get(config, date).then(result => {
     console.log("successfully found", result);
   });
 }

@@ -112,7 +112,7 @@ consumer.on("offsetOutOfRange", function(topic) {
 
 async function loginToScicat(config) {
   console.log("login to scicat");
-  let url = "http://" + config.scicatIP + "/api/v3/Users/login";
+  let url =  config.scicatIP + "/api/v3/Users/login";
   let rawdata = readjson("user.json");
   console.log(rawdata);
   let options1 = {

@@ -23,11 +23,14 @@ export class SciCat {
     console.log(parsedNexus);
     const prop = new GetProposal();
     const newprop = await prop.get(config, dateNow);
+    const orc = new GetOrcid();
+
     let proposalId = "DEFAULT";
     let owner = "default";
     let principalInvestigator = "default";
     let pi_email = "default";
     let owner_email = "default";
+    let orcid = "default";
     if (newprop.proposalId.length === 6) {
       proposalId = newprop.proposalId;
       owner = newprop.firstname + " " + newprop.lastname;
@@ -35,6 +38,7 @@ export class SciCat {
       owner = newprop.firstname + " " + newprop.lastname;
       owner_email = newprop.ownerEmail;
       pi_email = newprop.pi_email;
+      orcid = orc.get(owner);
     }
     console.log(newprop);
     let job_id = "x";
@@ -76,7 +80,7 @@ export class SciCat {
       scientificMetadata: parsedNexus,
       owner: owner,
       ownerEmail: owner_email,
-      orcidOfOwner: defaultDataset.orcidOfOwner,
+      orcidOfOwner: orcid,
       contactEmail: pi_email,
       sourceFolder: "/users/detector/experiments/V20/" + proposalId,
       size: size,

@@ -80,6 +80,7 @@ consumer.on("message", function(message) {
       const cmd = scimetObject["cmd"];
       console.log("cmd", cmd);
       if (cmd === "FileWriter_new") {
+        console.log("start send");
         sendtoscicat(message, config);
       } else if (cmd === "FileWriter_stop") {
         console.log("add copy logic");

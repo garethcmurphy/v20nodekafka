@@ -1,4 +1,5 @@
 import { GetProposal } from "./GetProposal";
+import { GetOrcid } from "./GetOrcid";
 const { ReadFile } = require("./readfile");
 var rp = require("request-promise");
 import { readjson } from "./kafka";

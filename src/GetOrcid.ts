@@ -1,5 +1,5 @@
 #!/usr/bin/env ts-node
-class GetOrcid {
+export class GetOrcid {
   orcids = {
     "Anton Khaplanov": "https://orcid.org/0000-0001-6195-5538",
     "Dorothea Pfeiffer": "https://orcid.org/0000-0003-3893-2308",

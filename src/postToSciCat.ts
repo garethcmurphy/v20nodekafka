@@ -205,7 +205,7 @@ export class SciCat {
       }
     }
     let sample = {
-      samplelId: sampleId,
+      sampleId: sampleId,
       owner: defaultDataset.owner,
       description: sample_description,
       createdAt: dateNow,

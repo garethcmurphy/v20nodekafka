@@ -83,7 +83,7 @@ export class SciCat {
       ownerEmail: owner_email,
       orcidOfOwner: orcid,
       contactEmail: pi_email,
-      sourceFolder: "/users/detector/experiments/V20/" + proposalId,
+      sourceFolder: "/nfs/groups/beamlines/V20/" + proposalId,
       size: size,
       packedSize: size,
       creationTime: dateNow,

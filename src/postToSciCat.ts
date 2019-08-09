@@ -65,8 +65,9 @@ export class SciCat {
       config.scicatIP +
       "/api/v3/Datasets/" +
       encodeURIComponent(prefix + job_id) +
-      "/origdatablocks";
-    "?access_token=" + token.id;
+      "/origdatablocks" +
+      "?access_token=" +
+      token.id;
 
     console.log(url);
     let dataset = {

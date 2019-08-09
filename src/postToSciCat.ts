@@ -52,10 +52,7 @@ export class SciCat {
     const wherestr = encodeURIComponent(JSON.stringify(whereobj));
     console.log(wherestr);
     let url =
-      config.scicatIP +
-      "/api/v3/Datasets" +
-      "?access_token=" +
-      token.id;
+      config.scicatIP + "/api/v3/Datasets" + "?access_token=" + token.id;
 
     let delete_url =
       config.scicatIP +
@@ -186,10 +183,7 @@ export class SciCat {
   async sampleToSciCat(token, data, config, sampleId) {
     console.log("sample to scicat");
     let url =
-      config.scicatIP +
-      "/api/v3/Samples/" +
-      "?access_token=" +
-      token.id;
+      config.scicatIP + "/api/v3/Samples/" + "?access_token=" + token.id;
     console.log(url);
     let dateNow = new Date(Date.now());
     var defaultDataset = readjson("sample.json");
@@ -238,17 +232,16 @@ export class SciCat {
   async origToSciCat(token, dataset, message, config, sampleId) {
     console.log("orig to scicat" + dataset.pid);
     let url =
-      config.scicatIP +
-      "/api/v3/OrigDatablocks/" +
-      "?access_token=" +
-      token.id;
+      config.scicatIP + "/api/v3/OrigDatablocks/" + "?access_token=" + token.id;
     console.log(url);
     var defaultDataset = readjson("orig.json");
     let fileName = "default.nxs";
     if (dataset !== undefined) {
       if (dataset.hasOwnProperty("scientificMetadata")) {
         if (dataset.scientificMetadata.hasOwnProperty("file_name")) {
-          fileName = dataset.scientificMetadata.file_name;
+          const fullName = dataset.scientificMetadata.file_name;
+          fileName =
+            dataset.sourceFolder + "/" + fullName.split("/").reverse()[0];
         }
       }
     }

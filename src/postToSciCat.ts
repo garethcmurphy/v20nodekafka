@@ -131,7 +131,7 @@ export class SciCat {
 
     let option_del_orig = {
       url: delete_orig,
-      method: "POST",
+      method: "DELETE",
       body: dataset,
       json: true,
       rejectUnauthorized: false
@@ -143,7 +143,7 @@ export class SciCat {
       const response = await rp(option_del_orig);
       //console.log(response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     console.log(dataset.scientificMetadata);
@@ -161,7 +161,7 @@ export class SciCat {
       const response = await rp(options_delete);
       //console.log(response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
 
     let options1 = {

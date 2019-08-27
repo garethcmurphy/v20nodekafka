@@ -11,6 +11,7 @@ export class SciCat {
 
   async postToSciCat(token, message, config, sampleId) {
     console.log("posting to scicat");
+    console.log(message.value)
     var scimet = message.value.replace(/\n/g, "");
     console.log("offset", message.offset);
     var jsonFormattedString = scimet.replace(/\\\//g, "/");

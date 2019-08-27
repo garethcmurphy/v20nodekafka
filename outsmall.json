@@ -1,0 +1,531 @@
+{
+	"cmd": "FileWriter_new",
+	"broker": "192.168.1.80:9092",
+	"job_id": "e5a2d4c8-fee6-11e8-8246-b4d5bd314a9d",
+	"file_attributes": {
+		"file_name": "/data/kafka-to-nexus/v20-2019-04-08T16:02:40+0200.nxs"
+	},
+	"nexus_structure": {
+		"children": [{
+			"type": "group",
+			"name": "entry",
+			"children": [{
+					"type": "dataset",
+					"name": "title",
+					"dataset": {
+						"type": "string"
+					},
+					"values": "test_April_05"
+				},
+				{
+					"type": "dataset",
+					"name": "features",
+					"dataset": {
+						"type": "uint64",
+						"size": [
+							3
+						]
+					},
+					"values": [
+						12705204561359454523,
+						10138143369737381149,
+						17055242037422131565
+					]
+				},
+				{
+					"type": "group",
+					"name": "instrument",
+					"children": [{
+							"type": "group",
+							"name": "chopper_1",
+							"children": [{
+								"type": "group",
+								"name": "top_dead_centre_unix",
+								"children": [{
+									"type": "stream",
+									"stream": {
+										"topic": "V20_choppers",
+										"source": "chopper_1_A",
+										"writer_module": "f142",
+										"type": "double"
+									}
+								}],
+								"attributes": [{
+									"name": "NX_class",
+									"values": "NXlog"
+								}]
+							}],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "chopper_2",
+							"children": [{
+								"type": "group",
+								"name": "top_dead_centre_unix",
+								"children": [{
+									"type": "stream",
+									"stream": {
+										"topic": "V20_choppers",
+										"source": "chopper_2_A",
+										"writer_module": "f142",
+										"type": "double"
+									}
+								}],
+								"attributes": [{
+									"name": "NX_class",
+									"values": "NXlog"
+								}]
+							}],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "chopper_3",
+							"children": [{
+									"type": "dataset",
+									"name": "factor",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "group",
+									"name": "top_dead_centre_unix",
+									"children": [{
+										"type": "stream",
+										"stream": {
+											"topic": "V20_choppers",
+											"source": "chopper_3_J",
+											"writer_module": "f142",
+											"type": "double"
+										}
+									}],
+									"attributes": [{
+										"name": "NX_class",
+										"values": "NXlog"
+									}]
+								}
+							],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "chopper_4",
+							"children": [{
+									"type": "dataset",
+									"name": "factor",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "group",
+									"name": "top_dead_centre_unix",
+									"children": [{
+										"type": "stream",
+										"stream": {
+											"topic": "V20_choppers",
+											"source": "chopper_4_J",
+											"writer_module": "f142",
+											"type": "double"
+										}
+									}],
+									"attributes": [{
+										"name": "NX_class",
+										"values": "NXlog"
+									}]
+								}
+							],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "chopper_5",
+							"children": [{
+									"type": "dataset",
+									"name": "factor",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "group",
+									"name": "top_dead_centre_unix",
+									"children": [{
+										"type": "stream",
+										"stream": {
+											"topic": "V20_choppers",
+											"source": "chopper_5_J",
+											"writer_module": "f142",
+											"type": "double"
+										}
+									}],
+									"attributes": [{
+										"name": "NX_class",
+										"values": "NXlog"
+									}]
+								}
+							],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "chopper_6",
+							"children": [{
+								"type": "group",
+								"name": "top_dead_centre_unix",
+								"children": [{
+									"type": "stream",
+									"stream": {
+										"topic": "V20_choppers",
+										"source": "chopper_6_A",
+										"writer_module": "f142",
+										"type": "double"
+									}
+								}],
+								"attributes": [{
+									"name": "NX_class",
+									"values": "NXlog"
+								}]
+							}],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "chopper_7",
+							"children": [{
+								"type": "group",
+								"name": "top_dead_centre_unix",
+								"children": [{
+									"type": "stream",
+									"stream": {
+										"topic": "V20_choppers",
+										"source": "chopper_7_A",
+										"writer_module": "f142",
+										"type": "double"
+									}
+								}],
+								"attributes": [{
+									"name": "NX_class",
+									"values": "NXlog"
+								}]
+							}],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "chopper_8",
+							"children": [{
+									"type": "dataset",
+									"name": "factor",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "phase_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "dataset",
+									"name": "speed_setpoint",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											1
+										]
+									},
+									"values": [
+										0
+									]
+								},
+								{
+									"type": "group",
+									"name": "top_dead_centre_unix",
+									"children": [{
+										"type": "stream",
+										"stream": {
+											"topic": "V20_choppers",
+											"source": "chopper_8_J",
+											"writer_module": "f142",
+											"type": "double"
+										}
+									}],
+									"attributes": [{
+										"name": "NX_class",
+										"values": "NXlog"
+									}]
+								}
+							],
+							"attributes": [{
+								"name": "NX_class",
+								"values": "NXdisk_chopper"
+							}]
+						},
+						{
+							"type": "group",
+							"name": "detector_1",
+							"children": [{
+									"type": "dataset",
+									"name": "depends_on",
+									"dataset": {
+										"type": "string"
+									},
+									"values": "/entry/instrument/detector_1/transformations/location"
+								},
+								{
+									"type": "dataset",
+									"name": "detector_number",
+									"dataset": {
+										"type": "int64",
+										"size": [
+											300,
+											300
+										]
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		}]
+	}
+}

@@ -2,7 +2,7 @@
 
 var fs = require("fs");
 export class ReadFile {
-  filename = "out.json";
+  filename = "outsmall.json";
 
   read() {
     const fs = require("fs");

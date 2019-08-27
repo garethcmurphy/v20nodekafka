@@ -20,6 +20,8 @@ export class SciCat {
     const reader = new ReadFile();
     const parsedNexus = reader.parse(scimetObject);
     let dateNow = parsedNexus.start_time;
+    let purgeDate = dateNow.setFullYear(dateNow.getFullYear() +10);
+    let publishDate = dateNow.setFullYear(dateNow.getFullYear() +3g;
     let title = parsedNexus.title;
     let size = parsedNexus.size;
     console.log(parsedNexus);
@@ -107,9 +109,9 @@ export class SciCat {
         archivable: true,
         retrievable: false,
         publishable: true,
-        dateOfDiskPurging: dateNow,
-        archiveRetentionTime: dateNow,
-        dateOfPublishing: dateNow,
+        dateOfDiskPurging: purgeDate,
+        archiveRetentionTime: purgeDate,
+        dateOfPublishing: publishDate,
         isOnCentralDisk: true,
         archiveStatusMessage: "string",
         retrieveStatusMessage: "string",

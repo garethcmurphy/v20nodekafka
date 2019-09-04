@@ -20,8 +20,9 @@ export class SciCat {
     const reader = new ReadFile();
     const parsedNexus = reader.parse(scimetObject);
     let dateNow = parsedNexus.start_time;
-    let purgeDate = dateNow.setFullYear(dateNow.getFullYear() +10);
-    let publishDate = dateNow.setFullYear(dateNow.getFullYear() +3g;
+    let dateNowObj = new Date( parsedNexus.start_time);
+    let purgeDate = dateNowObj.setFullYear(dateNowObj.getFullYear() +10);
+    let publishDate = dateNowObj.setFullYear(dateNowObj.getFullYear() +3g;
     let title = parsedNexus.title;
     let size = parsedNexus.size;
     console.log(parsedNexus);

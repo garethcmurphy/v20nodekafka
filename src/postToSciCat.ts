@@ -22,7 +22,7 @@ export class SciCat {
     let dateNow = parsedNexus.start_time;
     let dateNowObj = new Date( parsedNexus.start_time);
     let purgeDate = dateNowObj.setFullYear(dateNowObj.getFullYear() +10);
-    let publishDate = dateNowObj.setFullYear(dateNowObj.getFullYear() +3g;
+    let publishDate = dateNowObj.setFullYear(dateNowObj.getFullYear() +3);
     let title = parsedNexus.title;
     let size = parsedNexus.size;
     console.log(parsedNexus);

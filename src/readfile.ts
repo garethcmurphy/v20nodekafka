@@ -11,24 +11,33 @@ export class ReadFile {
     console.log(JSON.stringify(newObject, null, 2));
   }
 
+  measurement(units:string, value: number) {
+    const measure = {
+      type: "measurement",
+      units: units,
+      value: value
+    };
+    return measure;
+  }
+
   parse(scimetObject) {
     let newObject = {};
     let title = "V20 data";
     let dateNow = new Date(2018, 1, 1);
     let sample_description = "V20 sample";
-    let chopper_rotation_speed_1 = { u: "Hz", v: "0" };
-    let chopper_rotation_speed_2 = { u: "Hz", v: "0" };
-    let chopper_rotation_speed_3 = { u: "Hz", v: "0" };
-    let chopper_rotation_speed_4 = { u: "Hz", v: "0" };
-    let chopper_rotation_speed_5 = { u: "Hz", v: "0" };
-    let chopper_rotation_speed_6 = { u: "Hz", v: "0" };
-    let chopper_rotation_speed_7 = { u: "Hz", v: "0" };
-    let chopper_rotation_speed_8 = { u: "Hz", v: "0" };
-    let chopper_phase_1 = { u: "deg", v: "0" };
-    let chopper_phase_2 = { u: "deg", v: "0" };
-    let chopper_phase_3 = { u: "deg", v: "0" };
-    let chopper_phase_4 = { u: "deg", v: "0" };
-    let sample_temperature = { u: "C", v: "0" };
+    let chopper_rotation_speed_1 = this.measurement("Hz", 0);
+    let chopper_rotation_speed_2 = this.measurement("Hz", 0);
+    let chopper_rotation_speed_3 = this.measurement("Hz", 0);
+    let chopper_rotation_speed_4 = this.measurement("Hz", 0);
+    let chopper_rotation_speed_5 = this.measurement("Hz", 0);
+    let chopper_rotation_speed_6 = this.measurement("Hz", 0);
+    let chopper_rotation_speed_7 = this.measurement("Hz", 0);
+    let chopper_rotation_speed_8 = this.measurement("Hz", 0);
+    let chopper_phase_1 = this.measurement("deg", 0);
+    let chopper_phase_2 = this.measurement("deg", 0);
+    let chopper_phase_3 = this.measurement("deg", 0);
+    let chopper_phase_4 = this.measurement("deg", 0);
+    let sample_temperature = this.measurement("C", 0);
     let fileName = "default.nxs";
     if (scimetObject.hasOwnProperty("file_attributes")) {
       fileName = scimetObject.file_attributes.file_name;
@@ -76,7 +85,7 @@ export class ReadFile {
           }
           let tmpObject = {};
           for (let i = 1; i < 9; i++) {
-            let tmpSpeed = { u: "Hz", v: "0" };
+            let tmpSpeed = this.measurement("Hz", 0);
             this.get_chopper(
               entry,
               tmpSpeed,
@@ -149,7 +158,7 @@ export class ReadFile {
 
   private get_chopper(
     entry: any,
-    chopper_rotation_speed_1: { u: string; v: string },
+    chopper_rotation_speed_1: { type: string, units: string; value: string },
     chopper: string,
     variable: string
   ) {
@@ -169,7 +178,7 @@ export class ReadFile {
               child => child.name == variable
             );
             if (speed_child != undefined) {
-              chopper_rotation_speed_1.v = speed_child.values;
+              chopper_rotation_speed_1.value = speed_child.values;
             }
           }
         }

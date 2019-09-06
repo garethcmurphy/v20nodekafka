@@ -158,7 +158,7 @@ export class ReadFile {
 
   private get_chopper(
     entry: any,
-    chopper_rotation_speed_1: { type: string, units: string; value: string },
+    chopper_rotation_speed_1: { type: string, units: string; value: number },
     chopper: string,
     variable: string
   ) {

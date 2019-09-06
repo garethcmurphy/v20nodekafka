@@ -11,7 +11,7 @@ export class ReadFile {
     console.log(JSON.stringify(newObject, null, 2));
   }
 
-  measurement(units:string, value: number) {
+  measurement(units: string, value: number) {
     const measure = {
       type: "measurement",
       units: units,
@@ -158,7 +158,7 @@ export class ReadFile {
 
   private get_chopper(
     entry: any,
-    chopper_rotation_speed_1: { type: string, units: string; value: number },
+    chopper_rotation_speed_1: { type: string; units: string; value: number },
     chopper: string,
     variable: string
   ) {

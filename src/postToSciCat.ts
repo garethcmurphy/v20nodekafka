@@ -3,6 +3,7 @@ import { GetOrcid } from "./GetOrcid";
 const { ReadFile } = require("./readfile");
 var rp = require("request-promise");
 import { readjson } from "./kafka";
+import { parse } from "url";
 
 export class SciCat {
   constructor() {
@@ -49,7 +50,9 @@ export class SciCat {
     console.log(newprop);
     let job_id = "x";
     if (scimetObject.hasOwnProperty("job_id")) {
-      job_id = scimetObject["job_id"];
+      const tag = parsedNexus.file_name.value.split("/");
+      const end = tag[tag.length-1]
+      job_id = scimetObject["job_id"] + end;
     }
     console.log(job_id);
     const prefix = "20.500.12269/";
@@ -76,7 +79,7 @@ export class SciCat {
 
     console.log(url);
     let dataset = {
-      pid: scimetObject.job_id,
+      pid: job_id ,
       principalInvestigator: principalInvestigator,
       endTime: dateNow,
       creationLocation: defaultDataset.creationLocation,

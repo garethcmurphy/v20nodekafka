@@ -11,7 +11,7 @@ export class SciCat {
 
   async postToSciCat(token, message, config, sampleId) {
     console.log("posting to scicat");
-    console.log(message.value.slice(0,50))
+    console.log(message.value.slice(0, 50));
     var scimet = message.value.replace(/\n/g, "");
     console.log("offset", message.offset);
     var jsonFormattedString = scimet.replace(/\\\//g, "/");
@@ -19,12 +19,13 @@ export class SciCat {
     var scimetObject = JSON.parse(jsonFormattedString);
     const reader = new ReadFile();
     const parsedNexus = reader.parse(scimetObject);
-    let dateNow = parsedNexus.start_time;
-    let dateNowObj = new Date( parsedNexus.start_time);
-    let purgeDate = dateNowObj.setFullYear(dateNowObj.getFullYear() +10);
-    let publishDate = dateNowObj.setFullYear(dateNowObj.getFullYear() +3);
-    let title = parsedNexus.title;
-    let size = parsedNexus.size;
+    let dateNow = parsedNexus.start_time.value;
+    console.log("dateNow", dateNow);
+    let dateNowObj = new Date(parsedNexus.start_time);
+    let purgeDate = dateNowObj.setFullYear(dateNowObj.getFullYear() + 10);
+    let publishDate = dateNowObj.setFullYear(dateNowObj.getFullYear() + 3);
+    let title = parsedNexus.title.value;
+    let size = parsedNexus.size.value;
     console.log(parsedNexus);
     const prop = new GetProposal();
     const newprop = await prop.get(config, dateNow);

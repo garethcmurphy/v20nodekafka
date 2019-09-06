@@ -11,11 +11,11 @@ export class ReadFile {
     console.log(JSON.stringify(newObject, null, 2));
   }
 
-  measurement(units: string, value: number) {
+  measurement(unit: string, value: number) {
     const measure = {
       type: "measurement",
-      unit: units,
-      value: value
+      value: value,
+      unit: unit
     };
     return measure;
   }
@@ -78,8 +78,10 @@ export class ReadFile {
               const sample_child = sampleObject.children.find(
                 child => child.name === "description"
               );
-              if (sample_child.hasOwnProperty("values")) {
-                sample_description = sample_child.values;
+              if (sample_child !== undefined) {
+                if (sample_child.hasOwnProperty("values")) {
+                  sample_description = sample_child.values;
+                }
               }
             }
           }
@@ -129,20 +131,21 @@ export class ReadFile {
 
     const size = this.getFileSize(fileName);
 
-    newObject["start_time"] = dateNow;
-    newObject["file_name"] = fileName;
-    newObject["title"] = title;
-    newObject["size"] = size;
+    newObject["start_time"] = { type: "date", value: dateNow, unit: "" };
+    newObject["file_name"] =  { type: "string", value: fileName, unit: "" };
+    newObject["title"] = { type: "string", value: title, unit: "" };
+    newObject["size"] = { type: "measurement", value: size, unit: "bytes" };
     newObject["chopper_1_speed"] = chopper_rotation_speed_1;
     newObject["chopper_1_phase"] = chopper_phase_1;
-    newObject["chopper_2_phase"] = chopper_phase_2;
     newObject["chopper_2_speed"] = chopper_rotation_speed_2;
-    newObject["chopper_3_phase"] = chopper_phase_3;
+    newObject["chopper_2_phase"] = chopper_phase_2;
     newObject["chopper_3_speed"] = chopper_rotation_speed_3;
-    newObject["chopper_4_phase"] = chopper_phase_4;
+    newObject["chopper_3_phase"] = chopper_phase_3;
     newObject["chopper_4_speed"] = chopper_rotation_speed_4;
-    newObject["sample_description"] = sample_description;
+    newObject["chopper_4_phase"] = chopper_phase_4;
+    newObject["sample_description"] = { type: "string", value: sample_description, unit: "" };
     newObject["sample_temperature"] = sample_temperature;
+    
 
     return newObject;
   }

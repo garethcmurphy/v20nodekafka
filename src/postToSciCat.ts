@@ -245,7 +245,7 @@ export class SciCat {
     if (dataset !== undefined) {
       if (dataset.hasOwnProperty("scientificMetadata")) {
         if (dataset.scientificMetadata.hasOwnProperty("file_name")) {
-          const fullName = dataset.scientificMetadata.file_name;
+          const fullName = dataset.scientificMetadata.file_name.value;
           fileName =
             dataset.sourceFolder + "/" + fullName.split("/").reverse()[0];
         }

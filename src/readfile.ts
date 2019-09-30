@@ -39,8 +39,14 @@ export class ReadFile {
     let chopper_phase_4 = this.measurement("deg", 0);
     let sample_temperature = this.measurement("C", 0);
     let fileName = "default.nxs";
+    let runNumber = { type: "number", value: 0, unit: "" };
     if (scimetObject.hasOwnProperty("file_attributes")) {
       fileName = scimetObject.file_attributes.file_name;
+      const runNumberValue = fileName
+        .split("_")
+        .pop()
+        .slice(0, -4);
+      runNumber = { type: "number", value:  parseInt(runNumberValue), unit: "" };
     }
     if (scimetObject.hasOwnProperty("nexus_structure")) {
       if (scimetObject.nexus_structure.hasOwnProperty("children")) {
@@ -131,21 +137,25 @@ export class ReadFile {
 
     const size = this.getFileSize(fileName);
 
-    newObject["start_time"] = { type: "date", value: dateNow, unit: "" };
-    newObject["file_name"] =  { type: "string", value: fileName, unit: "" };
-    newObject["title"] = { type: "string", value: title, unit: "" };
-    newObject["size"] = { type: "measurement", value: size, unit: "bytes" };
-    newObject["chopper_1_speed"] = chopper_rotation_speed_1;
     newObject["chopper_1_phase"] = chopper_phase_1;
-    newObject["chopper_2_speed"] = chopper_rotation_speed_2;
+    newObject["chopper_1_speed"] = chopper_rotation_speed_1;
     newObject["chopper_2_phase"] = chopper_phase_2;
-    newObject["chopper_3_speed"] = chopper_rotation_speed_3;
+    newObject["chopper_2_speed"] = chopper_rotation_speed_2;
     newObject["chopper_3_phase"] = chopper_phase_3;
-    newObject["chopper_4_speed"] = chopper_rotation_speed_4;
+    newObject["chopper_3_speed"] = chopper_rotation_speed_3;
     newObject["chopper_4_phase"] = chopper_phase_4;
-    newObject["sample_description"] = { type: "string", value: sample_description, unit: "" };
+    newObject["chopper_4_speed"] = chopper_rotation_speed_4;
+    newObject["file_name"] = { type: "string", value: fileName, unit: "" };
+    newObject["runNumber"] = runNumber;
+    newObject["sample_description"] = {
+      type: "string",
+      value: sample_description,
+      unit: ""
+    };
     newObject["sample_temperature"] = sample_temperature;
-    
+    newObject["size"] = { type: "measurement", value: size, unit: "bytes" };
+    newObject["start_time"] = { type: "date", value: dateNow, unit: "" };
+    newObject["title"] = { type: "string", value: title, unit: "" };
 
     return newObject;
   }

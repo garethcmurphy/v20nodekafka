@@ -221,7 +221,7 @@ export class SciCat {
       ownerGroup: defaultDataset.ownerGroup,
       accessGroups: defaultDataset.accessGroups
     };
-    console.log(sample);
+    // console.log(sample);
     let options1 = {
       url: url,
       method: "POST",

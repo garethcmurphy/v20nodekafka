@@ -8,7 +8,7 @@ export class ReadFile {
     const fs = require("fs");
     var scimetObject = JSON.parse(fs.readFileSync(this.filename, "utf8"));
     let newObject = this.parse(scimetObject);
-    console.log(JSON.stringify(newObject, null, 2));
+    // console.log(JSON.stringify(newObject, null, 2));
   }
 
   measurement(unit: string, value: number) {
@@ -61,7 +61,7 @@ export class ReadFile {
           );
           if (titleObject !== undefined) {
             if (titleObject.hasOwnProperty("values")) {
-              console.log(titleObject);
+              // console.log(titleObject);
               title = titleObject.values;
             }
           }
@@ -70,7 +70,7 @@ export class ReadFile {
           );
           if (startObject !== undefined) {
             if (startObject.hasOwnProperty("values")) {
-              console.log(startObject);
+              // console.log(startObject);
               dateNow = startObject.values;
             }
           }
@@ -79,7 +79,7 @@ export class ReadFile {
             child => child.name === "sample"
           );
           if (sampleObject !== undefined) {
-            console.log(sampleObject);
+            // console.log(sampleObject);
             if (sampleObject.hasOwnProperty("children")) {
               const sample_child = sampleObject.children.find(
                 child => child.name === "description"

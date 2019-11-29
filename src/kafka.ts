@@ -46,7 +46,7 @@ offset.fetchLatestOffsets([topic], (err, offsets) => {
     latest = offsets[topic][o] > latest ? offsets[topic][o] : latest;
     console.log("latest offset", latest);
   });
-   consumer.setOffset(topic, 0, latest - 300);
+   consumer.setOffset(topic, 0, latest - 1);
 });
 
 // Refresh metadata required for the first message to go through

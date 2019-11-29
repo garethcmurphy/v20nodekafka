@@ -137,14 +137,6 @@ export class ReadFile {
 
     const size = this.getFileSize(fileName);
 
-    newObject["chopper_1_phase"] = chopper_phase_1;
-    newObject["chopper_1_speed"] = chopper_rotation_speed_1;
-    newObject["chopper_2_phase"] = chopper_phase_2;
-    newObject["chopper_2_speed"] = chopper_rotation_speed_2;
-    newObject["chopper_3_phase"] = chopper_phase_3;
-    newObject["chopper_3_speed"] = chopper_rotation_speed_3;
-    newObject["chopper_4_phase"] = chopper_phase_4;
-    newObject["chopper_4_speed"] = chopper_rotation_speed_4;
     newObject["file_name"] = { type: "string", value: fileName, unit: "" };
     newObject["runNumber"] = runNumber;
     newObject["sample_description"] = {

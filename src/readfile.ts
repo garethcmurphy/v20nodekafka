@@ -29,14 +29,6 @@ export class ReadFile {
     let chopper_rotation_speed_2 = this.measurement("Hz", 0);
     let chopper_rotation_speed_3 = this.measurement("Hz", 0);
     let chopper_rotation_speed_4 = this.measurement("Hz", 0);
-    let chopper_rotation_speed_5 = this.measurement("Hz", 0);
-    let chopper_rotation_speed_6 = this.measurement("Hz", 0);
-    let chopper_rotation_speed_7 = this.measurement("Hz", 0);
-    let chopper_rotation_speed_8 = this.measurement("Hz", 0);
-    let chopper_phase_1 = this.measurement("deg", 0);
-    let chopper_phase_2 = this.measurement("deg", 0);
-    let chopper_phase_3 = this.measurement("deg", 0);
-    let chopper_phase_4 = this.measurement("deg", 0);
     let sample_temperature = this.measurement("C", 0);
     let fileName = "default.nxs";
     let runNumber = { type: "number", value: 0, unit: "" };
@@ -126,10 +118,6 @@ export class ReadFile {
             "chopper_4",
             "speed"
           );
-          this.get_chopper(entry, chopper_phase_1, "chopper_1", "phase");
-          this.get_chopper(entry, chopper_phase_2, "chopper_2", "phase");
-          this.get_chopper(entry, chopper_phase_3, "chopper_3", "phase");
-          this.get_chopper(entry, chopper_phase_4, "chopper_4", "phase");
         }
       }
       //delete scimetObject["nexus_structure"]["children"][0]["children"][4]["children"][8];
@@ -144,8 +132,8 @@ export class ReadFile {
       value: sample_description,
       unit: ""
     };
-    newObject["sample_temperature"] = sample_temperature;
-    newObject["size"] = { type: "measurement", value: size, unit: "bytes" };
+    // newObject["sample_temperature"] = sample_temperature;
+    // newObject["size"] = { type: "measurement", value: size, unit: "bytes" };
     newObject["start_time"] = { type: "date", value: dateNow, unit: "" };
     newObject["title"] = { type: "string", value: title, unit: "" };
 

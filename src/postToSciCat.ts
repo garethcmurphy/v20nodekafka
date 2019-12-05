@@ -26,7 +26,13 @@ export class SciCat {
     let purgeDate = dateNowObj.setFullYear(dateNowObj.getFullYear() + 10);
     let publishDate = dateNowObj.setFullYear(dateNowObj.getFullYear() + 3);
     let title = parsedNexus.title.value;
-    let size = parsedNexus.size.value;
+    let size = 0;
+    if (parsedNexus.hasOwnProperty("size")) {
+      let temp = parsedNexus["size"];
+      if (temp.hasOwnProperty("value")) {
+        size = temp["value"];
+      }
+    }
     console.log(parsedNexus);
     const prop = new GetProposal();
     const newprop = await prop.get(config, dateNow);
@@ -51,7 +57,7 @@ export class SciCat {
     let job_id = "x";
     if (scimetObject.hasOwnProperty("job_id")) {
       const tag = parsedNexus.file_name.value.split("/");
-      const end = tag[tag.length-1]
+      const end = tag[tag.length - 1];
       job_id = scimetObject["job_id"] + end;
     }
     console.log(job_id);
@@ -79,7 +85,7 @@ export class SciCat {
 
     console.log(url);
     let dataset = {
-      pid: job_id ,
+      pid: job_id,
       principalInvestigator: principalInvestigator,
       endTime: dateNow,
       creationLocation: defaultDataset.creationLocation,
